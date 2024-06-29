@@ -51,14 +51,11 @@ def dot2dfa(dot):
 
     final_state_list = []
     for state in final_states:
-        # breakpoint()
-        # state = float(state)  # fixes ValueError: invalid literal for int() with base 10: ' 0.0'
         state = int(state)
         state = str(state)
         final_state_list.append(state)
 
     for state in final_state_list:
-        # breakpoint()
         automaton.set_accepting_state(state_dict[state], True)
 
     count = 0
@@ -85,7 +82,6 @@ class DFA:
         else:
             self.dictionary_symbols = dictionary_symbols
         if isinstance(arg1, str):
-            # breakpoint()
             self.init_from_ltl(arg1, arg2, arg3, dictionary_symbols)
         elif isinstance(arg1, int):
             self.random_init(arg1, arg2)
@@ -122,7 +118,6 @@ class DFA:
         #     print(f'dfa conversion failed ({type(e)}), formula was {ltl_formula}, dot was: {dot}')
         #     raise
 
-        # breakpoint()
         dfa = dot2dfa(dot)
         graph = dfa.to_graphviz()
         graph.render("symbolicDFAs/" + formula_name)

@@ -116,7 +116,6 @@ def main():
                         # Check if formula is interesting
                         rand_ds = random_strings_dataset(current_sample_size, TRACE_LENGTH, ["a", "b", "c"])
                         rand_ds = expand_dataset_with_end_of_trace_symbol(rand_ds).to(device)
-                        # breakpoint()
                         dfa = DFA(formula.replace("i", "->").replace("e", "<->"), 3, "random DNF declare", ["c0", "c1", "c2", "end"])
                         deep_dfa = dfa.return_deep_dfa().to(device)
                         sat_rate = evaluate_compliance_with_formula(deep_dfa, rand_ds)
