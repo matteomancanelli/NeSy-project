@@ -50,6 +50,10 @@ def generate_alphabet_concept_transition():
 
     return len(symbols)
 
+# this is useful outside of this too
+def get_ct_symbol_name(ct_pair):
+    return "_".join(ct_pair).replace(" ", "_").lower()
+
 if __name__ == "__main__":
     lc = generate_alphabet_concept()
     lt = generate_alphabet_transition()
