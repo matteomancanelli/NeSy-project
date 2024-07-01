@@ -1,6 +1,10 @@
 # .trace is the scarlet format (more "readable")
 # .dat is the stlnet format (actually used by the code)
 
+# scarlet format is for readability only and NOT an accurate implementation of the format.
+# for example, it's missing the positive-negative divide,
+# as well as the conclusion with the operator and symbol lists.
+
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import pm4py
@@ -65,5 +69,18 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet):
                 with open(Path(__file__).parent / "stlnet" / filename.with_suffix(".dat").name, "w") as f:
                     f.write(superstring_stlnet)
 
+def megamerge(directory, suffix):
+    first_write = True
+    with open(directory / ("DATASET"+suffix), "w") as fout:
+        for filename in directory.iterdir():
+            if filename.suffix == suffix:
+                with open(filename, "r") as fin:
+                    if not first_write:
+                        fout.write("\n")
+                    fout.write(fin.read())
+                    first_write = False
+
 if __name__ == "__main__":
     _convertxes(True, do_scarlet=True, do_stlnet=True)
+    megamerge(Path(__file__).parent / "scarlet", ".trace")
+    megamerge(Path(__file__).parent / "stlnet", ".dat")
