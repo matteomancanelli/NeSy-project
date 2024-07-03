@@ -71,9 +71,9 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet):
 
 def megamerge(directory, suffix):
     first_write = True
-    with open(directory / ("DATASET"+suffix), "w") as fout:
+    with open(directory / ("50-75-100-128-merge"+suffix), "w") as fout:
         for filename in directory.iterdir():
-            if filename.suffix == suffix:
+            if filename.suffix == suffix and filename.stem in ("50","75","100","128"):
                 with open(filename, "r") as fin:
                     if not first_write:
                         fout.write("\n")
