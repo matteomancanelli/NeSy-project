@@ -43,6 +43,7 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet):
             trace_names = log["case:concept:name"].unique()
             include_transitions = include_transitions and "lifecycle:transition" in log.columns
             traces_scarlet = []
+            lengths = []
             for tn in trace_names:
                 ### HANDLE TRACE
                 trace_df = log[log["case:concept:name"] == tn]
@@ -59,6 +60,7 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet):
                 trace_list = [symbolize(row) for row in trace_df.values]
                 trace_halfscarlet = [symbol_to_scarlet(s, alphabet) for s in trace_list]
                 traces_scarlet.append(";".join(trace_halfscarlet))
+                lengths.append(str(len(trace_halfscarlet))+"\n")
             # HANDLE FILE cont.
             superstring_scarlet = "\n".join(traces_scarlet)
             if (do_scarlet):
@@ -68,6 +70,8 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet):
                 superstring_stlnet = superstring_scarlet.replace(",", " ").replace(";", " ")
                 with open(Path(__file__).parent / "stlnet" / filename.with_suffix(".dat").name, "w") as f:
                     f.write(superstring_stlnet)
+            with open(Path(__file__).parent / "lengths" / filename.with_suffix(".txt").name, "w") as f:
+                f.writelines(lengths)
 
 def megamerge(directory, suffix):
     first_write = True
