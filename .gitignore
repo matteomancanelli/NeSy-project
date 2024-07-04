@@ -1,5 +1,7 @@
 __pycache__
-datasets
+
 results
 simpleDFAs
 symbolicDFAs
+
+prova.py
