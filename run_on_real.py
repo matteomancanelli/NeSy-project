@@ -114,10 +114,7 @@ def main():
 
     traces_to_scarlet(traces_file, scarlet_file, alphabet)
     traces_to_stlnet(traces_file, stlnet_file, alphabet)
-
-    assert False
-
-    alphabet_ = alphabet.append("end")
+    alphabet.append("end")
     
     # Formulas
     with open(formula_file, "r") as f:
@@ -125,7 +122,7 @@ def main():
         formula_scarlet_lst = []
 
         for line in f.readlines():
-            formulas_infix.append(line.rstrip('\n').replace("i", "->").replace("e", "<->"))
+            formulas_infix.append(line.rstrip('\n').replace(" i ", " -> ").replace(" e ", " <-> "))
 
             formula = "(" + line.rstrip('\n') + ") & " + getMutex(alphabet) # Declare assumption
             #print(formula)
@@ -139,22 +136,17 @@ def main():
         for formula in formula_scarlet_lst:
             f.write(f"{formula};" + ','.join([symbol for symbol in alphabet])  + "\n")
 
-
-    # Write traces on .dat files
-    #dataset_file_name = pathlib.Path(dataset_sample_size_folder, f"dataset_declare_D={D}_C={C}_{current_sample_size}_FORMULANUMBER.dat")
-    #scarlet_traces_to_stlnet_format(str(dataset_sample_size_folder) + "/TracesFiles", str(dataset_file_name))
-
-    print("so long so good")
-    assert False
-
     # Run experiments for each formula
     for i_form, formula in enumerate(formulas_infix):
         configuration_results[str("real")][i_form] = {}
         configuration_results[str("real")][i_form]["results"] = {}
 
         # DFA formula evaluator
-        dfa = DFA(formula, NVAR, "declare", dictionary_symbols=alphabet_)
+        dfa = DFA(formula, NVAR, "declare", alphabet)
         deep_dfa = dfa.return_deep_dfa()
+
+        print("so long so good")
+        assert False
 
         # Dataset
         dataset = torch.tensor(np.loadtxt(str(dataset_file_name).replace("FORMULANUMBER", str(i_form))))  # pylint: disable=no-member
