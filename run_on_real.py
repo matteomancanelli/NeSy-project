@@ -4,24 +4,23 @@ import xml.etree.ElementTree as ET
 
 import torch
 
+from sample_interesting_formulas import list_to_one_hot
 from LTL2STL import infix_to_prefix, prefix_LTL_to_scarlet2
+from FiniteStateMachine import DFA
 
 if torch.cuda.is_available():
     device = "cuda:0"
 else:
     device = "cpu"
 
-def extractSymbols(log):
-    tree = ET.parse(log)
+def extractSymbols(log_file, traces_file):
+    tree = ET.parse(log_file)
     root = tree.getroot()
 
     alphabet = set()
     #n_traces_per_length = {}
 
-    data_folder = pathlib.Path("datasets", "real")
-    trace_file = pathlib.Path(data_folder, "traces.txt")
-
-    with open(trace_file, "w") as f:
+    with open(traces_file, "w") as f:
         for trace in root.iter('trace'):
             #n_events = 0
             sym_list = []
@@ -43,6 +42,22 @@ def extractSymbols(log):
             #n_traces_per_length.update({n_events: n_traces_per_length.setdefault(n_events, 0) + 1})
     
     return sorted(alphabet)
+
+def traces_to_scarlet(traces_file, scarlet_file, alphabet):
+    with open(traces_file, "r") as input:
+        with open(scarlet_file, "w") as output:
+            for line in input:
+                trace = eval(line.rstrip("\n"))
+                one_hot = list_to_one_hot(trace, alphabet)
+                output.write(";".join([",".join(map(lambda x: str(int(x)), seq)) for seq in one_hot]) + "\n")
+
+def traces_to_stlnet(traces_file, stlnet_file, alphabet):
+    with open(traces_file, "r") as input:
+        with open(stlnet_file, "w") as output:
+            for line in input:
+                trace = eval(line.rstrip("\n"))
+                one_hot = list_to_one_hot(trace, alphabet)
+                output.write(" ".join([" ".join(map(lambda x: str(int(x)), seq)) for seq in one_hot]) + "\n")
 
 def getMutex(alphabet):
     mutex_str = " & ".join(["(" + symbol + " i (" + " & ".join(["! " + sym for sym in alphabet if sym != symbol]) + "))" for symbol in alphabet])
@@ -87,19 +102,30 @@ def main():
     data_folder.mkdir(parents=True, exist_ok=True)
 
     data_file = pathlib.Path(data_folder, "dutch_financial_log.xes")
+    traces_file = pathlib.Path(data_folder, "traces.txt")
+    scarlet_file = pathlib.Path(data_folder, "traces_scarlet.traces")
+    stlnet_file = pathlib.Path(data_folder, "traces_stlnet.dat")
+
     formula_file = pathlib.Path(data_folder, "formulas.txt")
     formula_scarlet_file = pathlib.Path(data_folder, "formula_scarlet.txt")
 
-    alphabet = extractSymbols(data_file)
+    alphabet = extractSymbols(data_file, traces_file)
     NVAR = len(alphabet)
+
+    traces_to_scarlet(traces_file, scarlet_file, alphabet)
+    traces_to_stlnet(traces_file, stlnet_file, alphabet)
+
+    assert False
+
+    alphabet_ = alphabet.append("end")
     
     # Formulas
     with open(formula_file, "r") as f:
-        DNF_formulas_infix = []
+        formulas_infix = []
         formula_scarlet_lst = []
 
         for line in f.readlines():
-            DNF_formulas_infix.append(line.rstrip('\n').replace("i", "->").replace("e", "<->"))
+            formulas_infix.append(line.rstrip('\n').replace("i", "->").replace("e", "<->"))
 
             formula = "(" + line.rstrip('\n') + ") & " + getMutex(alphabet) # Declare assumption
             #print(formula)
@@ -113,20 +139,21 @@ def main():
         for formula in formula_scarlet_lst:
             f.write(f"{formula};" + ','.join([symbol for symbol in alphabet])  + "\n")
 
-    assert False
-    # Dataset folder for current_sample_size
-    dataset_sample_size_folder = pathlib.Path(dataset_folder, f"sample_size_{current_sample_size}")
 
     # Write traces on .dat files
-    dataset_file_name = pathlib.Path(dataset_sample_size_folder, f"dataset_declare_D={D}_C={C}_{current_sample_size}_FORMULANUMBER.dat")
-    scarlet_traces_to_stlnet_format(str(dataset_sample_size_folder) + "/TracesFiles", str(dataset_file_name))
+    #dataset_file_name = pathlib.Path(dataset_sample_size_folder, f"dataset_declare_D={D}_C={C}_{current_sample_size}_FORMULANUMBER.dat")
+    #scarlet_traces_to_stlnet_format(str(dataset_sample_size_folder) + "/TracesFiles", str(dataset_file_name))
+
+    print("so long so good")
+    assert False
 
     # Run experiments for each formula
-    for i_form, formula in enumerate(DNF_formulas_infix):
-        configuration_results[str((D, C))][i_form][current_sample_size]["results"] = {}
+    for i_form, formula in enumerate(formulas_infix):
+        configuration_results[str("real")][i_form] = {}
+        configuration_results[str("real")][i_form]["results"] = {}
 
         # DFA formula evaluator
-        dfa = DFA(formula, NVAR, "random DNF declare", ["c0", "c1", "c2", "end"])
+        dfa = DFA(formula, NVAR, "declare", dictionary_symbols=alphabet_)
         deep_dfa = dfa.return_deep_dfa()
 
         # Dataset
