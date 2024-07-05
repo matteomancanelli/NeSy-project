@@ -2,6 +2,9 @@ from pathlib import Path
 import pm4py
 import json
 
+PADDING_NAME = "PADDING"
+END_OF_TRACE_NAME = "END_OF_TRACE"
+
 def generate_alphabet_concept():
     symbols = set()
 
@@ -10,10 +13,14 @@ def generate_alphabet_concept():
             log = pm4py.read_xes(str(filename))
             symbols.update(log["concept:name"].unique())
 
+    symbols_list = sorted(symbols)
+    symbols_list.insert(0, "PADDING")
+    symbols_list.append("END_OF_TRACE")
+
     with open(Path(__file__).parent / "ALPHABET_c.LIST", "w") as f:
-        json.dump(sorted(symbols), f)
+        json.dump(symbols_list, f)
     
-    return len(symbols)
+    return len(symbols_list)
 
 def generate_alphabet_transition():
     symbols = set()
@@ -45,10 +52,14 @@ def generate_alphabet_concept_transition():
     symbols = set(map(lambda tup: "_".join(tup).replace(" ", "_").lower(), big_symbols))
     symbols.update(set(map(lambda s: s.lower(), small_symbols)))
 
-    with open(Path(__file__).parent / "ALPHABET_ct.LIST", "w") as f:
-        json.dump(sorted(symbols), f)
+    symbols_list = sorted(symbols)
+    symbols_list.insert(0, PADDING_NAME)
+    symbols_list.append(END_OF_TRACE_NAME)
 
-    return len(symbols)
+    with open(Path(__file__).parent / "ALPHABET_ct.LIST", "w") as f:
+        json.dump(symbols_list, f)
+
+    return len(symbols_list)
 
 # this is useful outside of this too
 def get_ct_symbol_name(ct_pair):

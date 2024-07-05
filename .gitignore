@@ -1,7 +1,9 @@
 __pycache__
-
+datasets/datasets_*
 results
 simpleDFAs
 symbolicDFAs
+**/dutch_financial_log.trace
+**/dutch_financial_log.dat
 
 prova.py

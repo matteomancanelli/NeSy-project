@@ -13,7 +13,7 @@ def train(rnn, train_dataset, test_dataset, max_num_epochs, epsilon, deepdfa = N
     lambda_temp = 0.9999999999
     min_temp = 0.0001
     rnn = rnn.to(device)
-    loss_func = torch.nn.CrossEntropyLoss()
+    loss_func = torch.nn.CrossEntropyLoss(ignore_index=0)
     optim = torch.optim.Adam(params=rnn.parameters(), lr=0.0005)
     acc_func = torchmetrics.Accuracy(task="multiclass", num_classes=train_dataset.size()[-1], top_k=1).to(device)
     old_loss = 1000

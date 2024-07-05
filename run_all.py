@@ -32,13 +32,21 @@ def main():
     results_folder.mkdir(parents=True, exist_ok=True)
     results_file.touch()
 
+    REAL_FORMULAS = []
+    with open(pathlib.Path(__file__).parent / "real_data" / "FORMULAS_letters.TXT", 'r') as f:
+        for line in f:
+            REAL_FORMULAS.append(line.strip())
+
     # Number of experiments
     N_CONFIGURATIONS = 5
-    N_FORMULAS = 5
+    N_FORMULAS = len(REAL_FORMULAS)
     N_EXPERIMENTS_PER_FORMULA = 5
 
     # Parameters for RNN
-    NVAR = 3
+    ALPHABET_FNAME = "ALPHABET_ct.LIST"
+    with open(pathlib.Path(__file__).parent / "real_data" / ALPHABET_FNAME, 'r') as f:
+        ALPHABET = json.load(f)
+    NVAR = len(ALPHABET)
     HIDDEN_DIM = 100
     TRAIN_RATIO = 0.9
     TEMPERATURE = 0.7
@@ -50,7 +58,7 @@ def main():
     C = 0
 
     # PARAMETERS TO VARY
-    TRACE_LENGTH = 20
+    TRACE_LENGTH = 50
     SAMPLE_SIZE_START_VALUE = 250
     SAMPLE_SIZE_INCREMENT = 250
     SAMPLE_SIZE_INCREMENT_ITERATIONS = 4
@@ -100,18 +108,20 @@ def main():
                 sat_rate = 1
                 while sat_rate < 0.1 or sat_rate > 0.9:
                     # Generate random formula
-                    formula = generate_dnf_formula(formulas, min_conjuncts, max_conjuncts, min_disjuncts, max_disjuncts, ["c0", "c1", "c2"])
+                    # formula = generate_dnf_formula(formulas, min_conjuncts, max_conjuncts, min_disjuncts, max_disjuncts, ["c0", "c1", "c2"])
+                    formula = REAL_FORMULAS[i_form]
 
-                    # Check if formula was already generated
-                    if formula.replace("i", "->").replace("e", "<->") in DNF_formulas_infix:
-                        print("Formula already generated, retrying...")
-                        continue
+                    # # Check if formula was already generated
+                    # if formula.replace("i", "->").replace("e", "<->") in DNF_formulas_infix:
+                    #     print("Formula already generated, retrying...")
+                    #     continue
 
                     # Check if formula is interesting for each sample size
                     for current_sample_size in range(SAMPLE_SIZE_START_VALUE, SAMPLE_SIZE_START_VALUE + SAMPLE_SIZE_INCREMENT * SAMPLE_SIZE_INCREMENT_ITERATIONS, SAMPLE_SIZE_INCREMENT):
                 
                         # Store the results for the current formula and sample size
                         configuration_results[str((D, C))][i_form][current_sample_size] = {}
+                        break
 
                         # Check if formula is interesting
                         rand_ds = random_strings_dataset(current_sample_size, TRACE_LENGTH, ["a", "b", "c"])
@@ -121,28 +131,33 @@ def main():
                         sat_rate = evaluate_compliance_with_formula(deep_dfa, rand_ds)
 
                         if sat_rate < 0.1 or sat_rate > 0.9:
-                            print("Formula not interesting, retrying...")
-                            break
-                        else:
-                            configuration_results[str((D, C))][i_form][current_sample_size]["sat_rate"] = sat_rate
+                            print("Formula not interesting, but whatever")
+                        configuration_results[str((D, C))][i_form][current_sample_size]["sat_rate"] = sat_rate
+                    break
 
                 # Store the satisfaction rate for the current formula and sample size
                 configuration_results[str((D, C))][i_form]["formula"] = formula
                 print("Generated DNF formula:", formula)
-                DNF_formulas_infix.append(formula.replace("i", "->").replace("e", "<->"))
+                DNF_formulas_infix.append(formula.replace(" i ", " -> ").replace(" e ", " <-> "))
 
-                formula = "(" + formula + ") & (G((c0 i (! c1 & ! c2)) & (c1 i (! c0 & ! c2)) & (c2 i (! c0 & ! c1)) & (c0 | c1 | c2)))"  # Declare assumption
-                print("+ declare assumption:", formula)
-                formula_prefix = infix_to_prefix(formula)
-                print("in prefix format:", formula_prefix)
-                formula_scarlet, _ = prefix_LTL_to_scarlet(formula_prefix)
-                print("in scarlet format:", formula_scarlet)
-                formula_scarlet = formula_scarlet.replace("c0", "a")
-                formula_scarlet = formula_scarlet.replace("c1", "b")
-                formula_scarlet = formula_scarlet.replace("c2", "c")
-                # formula_scarlet = formula_scarlet.replace("c3", "d")
-                # formula_scarlet = formula_scarlet.replace("c4", "e")
-                f.write(formula_scarlet + ";a,b,c\n")
+                # formula = "(" + formula + ") & (G((c0 i (! c1 & ! c2)) & (c1 i (! c0 & ! c2)) & (c2 i (! c0 & ! c1)) & (c0 | c1 | c2)))"  # Declare assumption
+                # print("+ declare assumption:", formula)
+                # formula_prefix = infix_to_prefix(formula)
+                # print("in prefix format:", formula_prefix)
+                # formula_scarlet, _ = prefix_LTL_to_scarlet(formula_prefix)
+                # print("in scarlet format:", formula_scarlet)
+                # formula_scarlet = formula_scarlet.replace("c0", "a")
+                # formula_scarlet = formula_scarlet.replace("c1", "b")
+                # formula_scarlet = formula_scarlet.replace("c2", "c")
+                # # formula_scarlet = formula_scarlet.replace("c3", "d")
+                # # formula_scarlet = formula_scarlet.replace("c4", "e")
+                # f.write(formula_scarlet + ";a,b,c\n")
+                f.write(formula+'\n')
+
+        # DNF_formulas_infix = []
+        # with open(pathlib.Path(__file__).parent / "real_data" / "FORMULAS.TXT", 'r') as f:
+        #     for line in f:
+        #         DNF_formulas_infix.append(line.strip())
 
         with open(pathlib.Path(results_config_folder, "formulas_dec_infix.txt"), "w+") as f:
             for form in DNF_formulas_infix:
@@ -154,31 +169,34 @@ def main():
             # Dataset folder for current_sample_size
             dataset_sample_size_folder = pathlib.Path(dataset_folder, f"sample_size_{current_sample_size}")
 
-            # Generate positive traces from formulas
-            generator = SampleGenerator(
-                formula_file=str(formulas_dec_file),
-                trace_lengths=[(TRACE_LENGTH, TRACE_LENGTH)],
-                sample_sizes=[(current_sample_size, current_sample_size)],
-                output_folder=str(dataset_sample_size_folder),
-            )
-            generator.generate()
+            # # Generate positive traces from formulas
+            # generator = SampleGenerator(
+            #     formula_file=str(formulas_dec_file),
+            #     trace_lengths=[(TRACE_LENGTH, TRACE_LENGTH)],
+            #     sample_sizes=[(current_sample_size, current_sample_size)],
+            #     output_folder=str(dataset_sample_size_folder),
+            # )
+            # generator.generate()
 
-            # Write traces on .dat files
-            dataset_file_name = pathlib.Path(dataset_sample_size_folder, f"dataset_declare_D={D}_C={C}_{current_sample_size}_FORMULANUMBER.dat")
-            scarlet_traces_to_stlnet_format(str(dataset_sample_size_folder) + "/TracesFiles", str(dataset_file_name))
+            # # Write traces on .dat files
+            # dataset_file_name = pathlib.Path(dataset_sample_size_folder, f"dataset_declare_D={D}_C={C}_{current_sample_size}_FORMULANUMBER.dat")
+            # scarlet_traces_to_stlnet_format(str(dataset_sample_size_folder) + "/TracesFiles", str(dataset_file_name))
 
             # Run experiments for each formula
             for i_form, formula in enumerate(DNF_formulas_infix):
+                print(formula)
                 configuration_results[str((D, C))][i_form][current_sample_size]["results"] = {}
 
                 # DFA formula evaluator
-                dfa = DFA(formula, NVAR, "random DNF declare", ["c0", "c1", "c2", "end"])
+                dfa = DFA(formula, NVAR, "random DNF declare", ALPHABET)
                 deep_dfa = dfa.return_deep_dfa()
 
                 # Dataset
-                dataset = torch.tensor(np.loadtxt(str(dataset_file_name).replace("FORMULANUMBER", str(i_form))))  # pylint: disable=no-member
+                # dataset = torch.tensor(np.loadtxt(str(dataset_file_name).replace("FORMULANUMBER", str(i_form))))  # pylint: disable=no-member
+                dataset = torch.tensor(np.loadtxt("real_data/stlnet_padded/50.dat"))  # pylint: disable=no-member
                 dataset = dataset.view(dataset.size(0), -1, NVAR)
-                dataset = expand_dataset_with_end_of_trace_symbol(dataset)
+                # this has been moved into preprocessing, along with additional padding
+                # dataset = expand_dataset_with_end_of_trace_symbol(dataset)
                 dataset = dataset.float()
                 num_traces = dataset.size()[0]
 
@@ -223,7 +241,7 @@ def main():
                 # Run N_EXPERIMENTS_PER_FORMULA experiments for each formula
                 for exp in range(N_EXPERIMENTS_PER_FORMULA):
                     # Models
-                    rnn = LSTM_model(HIDDEN_DIM, NVAR + 1, NVAR + 1)
+                    rnn = LSTM_model(HIDDEN_DIM, NVAR, NVAR)
                     rnn_bk = deepcopy(rnn)
 
                     ########################################################
@@ -375,8 +393,9 @@ def main():
                     # Save in text file
                     results_config_file = pathlib.Path(results_config_folder, "results.txt")
                     with open(results_config_file, "a") as f:
-                        sat_rate = configuration_results[str((D, C))][i_form][current_sample_size]["sat_rate"]
-                        f.write(f"____________{i_form=}___{current_sample_size=}___{sat_rate=}___{exp=}____________\n")
+                        # sat_rate = configuration_results[str((D, C))][i_form][current_sample_size]["sat_rate"]
+                        # f.write(f"____________{i_form=}___{current_sample_size=}___{sat_rate=}___{exp=}____________\n")
+                        f.write(f"____________{i_form=}___{current_sample_size=}___{exp=}____________\n")
                         for current_prefix_len in range(PREFIX_LEN_START_VALUE, PREFIX_LEN_START_VALUE + PREFIX_LEN_INCREMENT * PREFIX_LEN_INCREMENT_ITERATIONS, PREFIX_LEN_INCREMENT):
                             f.write(f"- Prefix length: {current_prefix_len}\n")
                             f.write("train acc next activity:\nRNN:{}\tRNN+BK:{}\tRNN Greedy:{}\tRNN+BK Greedy:{}\n".format(mean(formula_experiment_results[current_prefix_len]["train_acc_rnn"]), mean(formula_experiment_results[current_prefix_len]["train_acc_rnn_bk"]), mean(formula_experiment_results[current_prefix_len]["train_acc_rnn_greedy"]), mean(formula_experiment_results[current_prefix_len]["train_acc_rnn_bk_greedy"])))
