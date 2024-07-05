@@ -1,5 +1,6 @@
 import pathlib
 import time
+import numpy as np
 import xml.etree.ElementTree as ET
 
 import torch
@@ -7,11 +8,34 @@ import torch
 from sample_interesting_formulas import list_to_one_hot
 from LTL2STL import infix_to_prefix, prefix_LTL_to_scarlet2
 from FiniteStateMachine import DFA
+from utils import expand_dataset_with_end_of_trace_symbol
 
 if torch.cuda.is_available():
     device = "cuda:0"
 else:
     device = "cpu"
+
+def filter_traces_by_length(log_file, out_file, length):
+    tree = ET.parse(log_file)
+    root = tree.getroot()
+
+    selected_traces = []
+
+    for trace in root.iter('trace'):
+        events = trace.findall('event')
+        
+        if len(events) == length:
+            selected_traces.append(trace)
+
+    new_root = ET.Element(root.tag, root.attrib)
+
+    for trace in selected_traces:
+        new_root.append(trace)
+
+    new_tree = ET.ElementTree(new_root)
+    new_tree.write(out_file, encoding='UTF-8', xml_declaration=True)
+
+    return len(selected_traces)
 
 def extractSymbols(log_file, traces_file):
     tree = ET.parse(log_file)
@@ -101,15 +125,23 @@ def main():
     data_folder = pathlib.Path("datasets", "real")
     data_folder.mkdir(parents=True, exist_ok=True)
 
-    data_file = pathlib.Path(data_folder, "dutch_financial_log.xes")
-    traces_file = pathlib.Path(data_folder, "traces.txt")
-    scarlet_file = pathlib.Path(data_folder, "traces_scarlet.traces")
-    stlnet_file = pathlib.Path(data_folder, "traces_stlnet.dat")
+    file_name = "dutch_financial_log"
+    filtered_file_name = f"l{TRACE_LENGTH}"
 
-    formula_file = pathlib.Path(data_folder, "formulas.txt")
-    formula_scarlet_file = pathlib.Path(data_folder, "formula_scarlet.txt")
+    data_file = pathlib.Path(data_folder, f"{filtered_file_name}.xes")
 
-    alphabet = extractSymbols(data_file, traces_file)
+    if filtered_file_name:
+        filtered_file = pathlib.Path(data_folder, f"{filtered_file_name}.xes")
+        filter_traces_by_length(data_file, filtered_file, TRACE_LENGTH)
+    else:
+        filtered_file_name = file_name
+        filtered_file = data_file
+
+    traces_file = pathlib.Path(data_folder, f"{filtered_file_name}.txt")
+    scarlet_file = pathlib.Path(data_folder, f"{filtered_file_name}_scarlet.traces")
+    stlnet_file = pathlib.Path(data_folder, f"{filtered_file_name}_stlnet.dat")
+
+    alphabet = extractSymbols(filtered_file, traces_file)
     NVAR = len(alphabet)
 
     traces_to_scarlet(traces_file, scarlet_file, alphabet)
@@ -117,6 +149,12 @@ def main():
     alphabet.append("end")
     
     # Formulas
+    formula_folder = pathlib.Path("formulas", "real")
+    formula_folder.mkdir(parents=True, exist_ok=True)
+
+    formula_file = pathlib.Path(formula_folder, "formulas.txt")
+    formula_scarlet_file = pathlib.Path(formula_folder, "formula_scarlet.txt")
+
     with open(formula_file, "r") as f:
         formulas_infix = []
         formula_scarlet_lst = []
@@ -136,6 +174,7 @@ def main():
         for formula in formula_scarlet_lst:
             f.write(f"{formula};" + ','.join([symbol for symbol in alphabet])  + "\n")
 
+    assert False
     # Run experiments for each formula
     for i_form, formula in enumerate(formulas_infix):
         configuration_results[str("real")][i_form] = {}
@@ -145,15 +184,7 @@ def main():
         dfa = DFA(formula, NVAR, "declare", alphabet)
         deep_dfa = dfa.return_deep_dfa()
 
-        print("so long so good")
         assert False
-
-        # Dataset
-        dataset = torch.tensor(np.loadtxt(str(dataset_file_name).replace("FORMULANUMBER", str(i_form))))  # pylint: disable=no-member
-        dataset = dataset.view(dataset.size(0), -1, NVAR)
-        dataset = expand_dataset_with_end_of_trace_symbol(dataset)
-        dataset = dataset.float()
-        num_traces = dataset.size()[0]
 
         # Splitting in train and test
         train_dataset = dataset[: int(TRAIN_RATIO * num_traces)]

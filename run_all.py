@@ -177,10 +177,35 @@ def main():
 
                 # Dataset
                 dataset = torch.tensor(np.loadtxt(str(dataset_file_name).replace("FORMULANUMBER", str(i_form))))  # pylint: disable=no-member
+                
+                print("--------------------------------------------------------------")
+                print("**************************************************************")
+                print(dataset.size())
+                print(dataset[0])
+                print(dataset[0].size())
+                print("--------------------------------------------------------------")
+                print("**************************************************************")
+
                 dataset = dataset.view(dataset.size(0), -1, NVAR)
+
+                print(dataset.size())
+                print(dataset[0])
+                print(dataset[0].size())
+                print("--------------------------------------------------------------")
+                print("**************************************************************")
+
                 dataset = expand_dataset_with_end_of_trace_symbol(dataset)
+
+                print(dataset.size())
+                print(dataset[0])
+                print(dataset[0].size())
+                print("--------------------------------------------------------------")
+                print("**************************************************************")
+
                 dataset = dataset.float()
                 num_traces = dataset.size()[0]
+
+                assert False
 
                 # Splitting in train and test
                 train_dataset = dataset[: int(TRAIN_RATIO * num_traces)]
