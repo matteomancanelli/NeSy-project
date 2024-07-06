@@ -1,14 +1,20 @@
 import pathlib
 import time
+import json
 import numpy as np
-import xml.etree.ElementTree as ET
-
 import torch
 
-from sample_interesting_formulas import list_to_one_hot
+from statistics import mean
+from copy import deepcopy
+import xml.etree.ElementTree as ET
+
 from LTL2STL import infix_to_prefix, prefix_LTL_to_scarlet2
+from RNN import LSTM_model
+from training import train
+from evaluation import suffix_prediction_with_temperature_with_stop, evaluate_compliance_with_formula, evaluate_DL_distance, greedy_suffix_prediction_with_stop
 from FiniteStateMachine import DFA
 from utils import expand_dataset_with_end_of_trace_symbol
+from sample_interesting_formulas import list_to_one_hot
 
 if torch.cuda.is_available():
     device = "cuda:0"
@@ -146,6 +152,9 @@ def main():
 
     traces_to_scarlet(traces_file, scarlet_file, alphabet)
     traces_to_stlnet(traces_file, stlnet_file, alphabet)
+    
+    stop_event = [0] * len(alphabet)
+    stop_event.append(1)
     alphabet.append("end")
     
     # Formulas
@@ -174,7 +183,6 @@ def main():
         for formula in formula_scarlet_lst:
             f.write(f"{formula};" + ','.join([symbol for symbol in alphabet])  + "\n")
 
-    assert False
     # Run experiments for each formula
     for i_form, formula in enumerate(formulas_infix):
         configuration_results[str("real")][i_form] = {}
@@ -184,7 +192,12 @@ def main():
         dfa = DFA(formula, NVAR, "declare", alphabet)
         deep_dfa = dfa.return_deep_dfa()
 
-        assert False
+        # Dataset
+        dataset = torch.tensor(np.loadtxt(stlnet_file))
+        dataset = dataset.view(dataset.size(0), -1, NVAR)
+        dataset = expand_dataset_with_end_of_trace_symbol(dataset)
+        dataset = dataset.float()
+        num_traces = dataset.size()[0]
 
         # Splitting in train and test
         train_dataset = dataset[: int(TRAIN_RATIO * num_traces)]
@@ -241,7 +254,7 @@ def main():
             train_acc, test_acc = train(model, train_dataset, test_dataset, MAX_NUM_EPOCHS, EPSILON)
             
             # Save the model
-            model_file = pathlib.Path(results_config_folder, f"model_rnn_formula_{i_form}_sample_size_{current_sample_size}_exp_{exp}.pt")
+            model_file = pathlib.Path(results_folder, f"model_rnn_formula_{i_form}_exp_{exp}.pt")
             torch.save(model.state_dict(), model_file)
 
             # We save the results for all prefix length values cause the training is the same for each value
@@ -253,8 +266,8 @@ def main():
 
             # RNN Suffix prediction with temperature
             for current_prefix_len in range(PREFIX_LEN_START_VALUE, PREFIX_LEN_START_VALUE + PREFIX_LEN_INCREMENT * PREFIX_LEN_INCREMENT_ITERATIONS, PREFIX_LEN_INCREMENT):
-                train_predicted_traces = suffix_prediction_with_temperature_with_stop(model, train_dataset, current_prefix_len, temperature=TEMPERATURE)
-                test_predicted_traces = suffix_prediction_with_temperature_with_stop(model, test_dataset, current_prefix_len, temperature=TEMPERATURE)
+                train_predicted_traces = suffix_prediction_with_temperature_with_stop(model, train_dataset, current_prefix_len, stop_event=stop_event, temperature=TEMPERATURE)
+                test_predicted_traces = suffix_prediction_with_temperature_with_stop(model, test_dataset, current_prefix_len, stop_event=stop_event, temperature=TEMPERATURE)
 
                 # Evaluating compliance with the formula of stochastic sampling
                 train_sat = evaluate_compliance_with_formula(deep_dfa, train_predicted_traces)
@@ -268,7 +281,7 @@ def main():
                 formula_experiment_results[current_prefix_len]["train_DL_rnn"].append(train_DL)
                 formula_experiment_results[current_prefix_len]["test_DL_rnn"].append(test_DL)
 
-                print(f"____________________RNN TEMPERATURE PREDICTION formula {i_form} / sample size {current_sample_size} / experiment {exp} / prefix length {current_prefix_len}____________________")
+                print(f"____________________RNN TEMPERATURE PREDICTION formula {i_form} / experiment {exp} / prefix length {current_prefix_len}____________________")
                 print(f"Satisfaction of formula {i_form}:")
                 print("- Train: ", train_sat)
                 print("- Test: ", test_sat)
@@ -278,8 +291,8 @@ def main():
 
             # RNN greedy suffix prediction
             for current_prefix_len in range(PREFIX_LEN_START_VALUE, PREFIX_LEN_START_VALUE + PREFIX_LEN_INCREMENT * PREFIX_LEN_INCREMENT_ITERATIONS, PREFIX_LEN_INCREMENT):
-                train_predicted_traces = greedy_suffix_prediction_with_stop(model, train_dataset, current_prefix_len)
-                test_predicted_traces = greedy_suffix_prediction_with_stop(model, test_dataset, current_prefix_len)
+                train_predicted_traces = greedy_suffix_prediction_with_stop(model, train_dataset, current_prefix_len, stop_event=stop_event)
+                test_predicted_traces = greedy_suffix_prediction_with_stop(model, test_dataset, current_prefix_len, stop_event=stop_event)
 
                 # Evaluating compliance with the formula of stochastic sampling
                 train_sat = evaluate_compliance_with_formula(deep_dfa, train_predicted_traces)
@@ -293,7 +306,7 @@ def main():
                 formula_experiment_results[current_prefix_len]["train_DL_rnn_greedy"].append(train_DL)
                 formula_experiment_results[current_prefix_len]["test_DL_rnn_greedy"].append(test_DL)
 
-                print(f"____________________RNN GREEDY PREDICTION formula {i_form} / sample size {current_sample_size} / experiment {exp} / prefix length {current_prefix_len}____________________")
+                print(f"____________________RNN GREEDY PREDICTION formula {i_form} / experiment {exp} / prefix length {current_prefix_len}____________________")
                 print(f"Satisfaction of formula {i_form}:")
                 print("- Train: ", train_sat)
                 print("- Test: ", test_sat)
@@ -313,7 +326,7 @@ def main():
                 train_acc, test_acc = train(model, train_dataset, test_dataset, MAX_NUM_EPOCHS, EPSILON, deepdfa=deep_dfa, prefix_len=current_prefix_len)
                 
                 # Save the model
-                model_file = pathlib.Path(results_config_folder, f"model_rnn_bk_formula_{i_form}_sample_size_{current_sample_size}_exp_{exp}_prefix_len_{current_prefix_len}.pt")
+                model_file = pathlib.Path(results_folder, f"model_rnn_bk_formula_{i_form}_exp_{exp}_prefix_len_{current_prefix_len}.pt")
                 torch.save(model.state_dict(), model_file)
 
                 # Save the results for all prefix length values cause the training is the same for each value
@@ -323,8 +336,8 @@ def main():
                 formula_experiment_results[current_prefix_len]["test_acc_rnn_bk_greedy"].append(test_acc)
 
                 # Suffix prediction with temperature
-                train_predicted_traces = suffix_prediction_with_temperature_with_stop(model, train_dataset, current_prefix_len, temperature=TEMPERATURE)
-                test_predicted_traces = suffix_prediction_with_temperature_with_stop(model, test_dataset, current_prefix_len, temperature=TEMPERATURE)
+                train_predicted_traces = suffix_prediction_with_temperature_with_stop(model, train_dataset, current_prefix_len, stop_event=stop_event, temperature=TEMPERATURE)
+                test_predicted_traces = suffix_prediction_with_temperature_with_stop(model, test_dataset, current_prefix_len, stop_event=stop_event, temperature=TEMPERATURE)
 
                 # Evaluating compliance with the formula of stochastic sampling
                 train_sat = evaluate_compliance_with_formula(deep_dfa, train_predicted_traces)
@@ -338,7 +351,7 @@ def main():
                 formula_experiment_results[current_prefix_len]["train_DL_rnn_bk"].append(train_DL)
                 formula_experiment_results[current_prefix_len]["test_DL_rnn_bk"].append(test_DL)
 
-                print(f"____________________RNN+BK TEMPERATURE PREDICTION formula {i_form} / sample size {current_sample_size} / experiment {exp} / prefix length {current_prefix_len}____________________")
+                print(f"____________________RNN+BK TEMPERATURE PREDICTION formula {i_form} / experiment {exp} / prefix length {current_prefix_len}____________________")
                 print("Satisfaction:")
                 print("- Train: ", train_sat)
                 print("- Test: ", test_sat)
@@ -347,8 +360,8 @@ def main():
                 print("- Test: ", test_DL)
 
                 # Greedy suffix prediction
-                train_predicted_traces = greedy_suffix_prediction_with_stop(model, train_dataset, current_prefix_len)
-                test_predicted_traces = greedy_suffix_prediction_with_stop(model, test_dataset, current_prefix_len)
+                train_predicted_traces = greedy_suffix_prediction_with_stop(model, train_dataset, current_prefix_len, stop_event=stop_event)
+                test_predicted_traces = greedy_suffix_prediction_with_stop(model, test_dataset, current_prefix_len, stop_event=stop_event)
 
                 # Evaluating compliance with the formula of stochastic sampling
                 train_sat = evaluate_compliance_with_formula(deep_dfa, train_predicted_traces)
@@ -362,7 +375,7 @@ def main():
                 formula_experiment_results[current_prefix_len]["train_DL_rnn_bk_greedy"].append(train_DL)
                 formula_experiment_results[current_prefix_len]["test_DL_rnn_bk_greedy"].append(test_DL)
 
-                print(f"____________________RNN+BK GREEDY PREDICTION formula {i_form} / sample size {current_sample_size} / experiment {exp} / prefix length {current_prefix_len}____________________")
+                print(f"____________________RNN+BK GREEDY PREDICTION formula {i_form} / experiment {exp} / prefix length {current_prefix_len}____________________")
                 print("Satisfaction:")
                 print("- Train: ", train_sat)
                 print("- Test: ", test_sat)
@@ -375,12 +388,11 @@ def main():
             print(f"Execution time for experiment {exp}: ", end_time - start_time)
 
             # Save the results of the experiment number {exp} for the current formula
-            configuration_results[str((D, C))][i_form][current_sample_size]["results"] = formula_experiment_results
+            configuration_results[str("real")][i_form]["results"] = formula_experiment_results
             # Save in text file
-            results_config_file = pathlib.Path(results_config_folder, "results.txt")
+            results_config_file = pathlib.Path(results_folder, "results.txt")
             with open(results_config_file, "a") as f:
-                sat_rate = configuration_results[str((D, C))][i_form][current_sample_size]["sat_rate"]
-                f.write(f"____________{i_form=}___{current_sample_size=}___{sat_rate=}___{exp=}____________\n")
+                f.write(f"____________{i_form=}___{exp=}____________\n")
                 for current_prefix_len in range(PREFIX_LEN_START_VALUE, PREFIX_LEN_START_VALUE + PREFIX_LEN_INCREMENT * PREFIX_LEN_INCREMENT_ITERATIONS, PREFIX_LEN_INCREMENT):
                     f.write(f"- Prefix length: {current_prefix_len}\n")
                     f.write("train acc next activity:\nRNN:{}\tRNN+BK:{}\tRNN Greedy:{}\tRNN+BK Greedy:{}\n".format(mean(formula_experiment_results[current_prefix_len]["train_acc_rnn"]), mean(formula_experiment_results[current_prefix_len]["train_acc_rnn_bk"]), mean(formula_experiment_results[current_prefix_len]["train_acc_rnn_greedy"]), mean(formula_experiment_results[current_prefix_len]["train_acc_rnn_bk_greedy"])))
@@ -392,7 +404,7 @@ def main():
                     f.write("\n")
                 f.write("Execution time: {}\n\n".format(end_time - start_time))
             # Save in JSON file
-            results_config_json_file = pathlib.Path(results_config_folder, "results.json")
+            results_config_json_file = pathlib.Path(results_folder, "results.json")
             with open(results_config_json_file, "w+") as f:
                 json.dump(configuration_results, f, indent=4)
 

@@ -245,6 +245,7 @@ def suffix_prediction_beam_search(rnn, dataset, prefix_len, stop_event = torch.t
 
     predicted_traces = beam_search(rnn, prefix, 3, len_traces*2, stop_event.to(device))
 
+    '''
     #TODO: padd the predicted traces with end symbol
     print(prefix[:3,:,:])
     print(prefix.size())
@@ -254,6 +255,7 @@ def suffix_prediction_beam_search(rnn, dataset, prefix_len, stop_event = torch.t
         print(s)
     assert False
     return predicted_traces
+    '''
 
 def beam_search(model, prefixes, beam_width, max_length, stop_event):
     suffixes = []
