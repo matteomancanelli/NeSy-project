@@ -1,5 +1,4 @@
-F(a_partlysubmitted_complete)
-G(a_submitted_complete e X (! a_partlysubmitted_complete))
+G(a_submitted_complete e X (a_partlysubmitted_complete))
 G(w_afhandelen_leads_schedule i F(w_afhandelen_leads_start))
 G(w_afhandelen_leads_start i F(w_afhandelen_leads_complete))
 G(w_completeren_aanvraag_schedule i F(w_completeren_aanvraag_complete)) & ((!w_completeren_aanvraag_complete) U w_completeren_aanvraag_schedule) | G(!w_completeren_aanvraag_complete)

@@ -43,20 +43,51 @@ def filter_traces_by_length(log_file, out_file, length):
 
     return len(selected_traces)
 
-def extractSymbols(log_file, traces_file):
+def combine_log_files(log_file_lst, out_file):
+    tree = ET.parse(log_file_lst[0])
+    root = tree.getroot()
+
+    new_root = ET.Element(root.tag, root.attrib)
+
+    for file in log_file_lst:
+        tree = ET.parse(file)
+        root = tree.getroot()
+        
+        for trace in root.iter('trace'):
+            new_root.append(trace)
+
+    new_tree = ET.ElementTree(new_root)
+    new_tree.write(out_file, encoding='UTF-8', xml_declaration=True)
+
+def filter_dataset(data_folder, data_file, trace_length_lst):
+    filtered_file_name =  "l" + '-'.join(str(l) for l in trace_length_lst)
+    log_file_lst = []
+
+    for length in trace_length_lst:
+        filtered_file = pathlib.Path(data_folder, f"l{length}.xes")
+        filter_traces_by_length(data_file, filtered_file, length)
+        log_file_lst.append(filtered_file)
+    
+    if len(trace_length_lst) > 1:
+        filtered_file = pathlib.Path(data_folder, f"{filtered_file_name}.xes")
+        combine_log_files(log_file_lst, filtered_file)
+    
+    return filtered_file_name, filtered_file
+
+def extract_symbols(log_file, traces_file, max_length, padding=None):
     tree = ET.parse(log_file)
     root = tree.getroot()
 
     alphabet = set()
-    #n_traces_per_length = {}
+    n_traces_per_length = {}
 
     with open(traces_file, "w") as f:
         for trace in root.iter('trace'):
-            #n_events = 0
+            n_events = 0
             sym_list = []
 
             for event in trace.iter('event'):
-                #n_events += 1
+                n_events += 1
 
                 for string in event.findall("string"):
                     if string.attrib.get('key') == 'lifecycle:transition':
@@ -68,9 +99,18 @@ def extractSymbols(log_file, traces_file):
                 sym_list.append(symbol)
                 alphabet.add(symbol)
             
+            if padding == "EOT":
+                while len(sym_list) < max_length + 1:
+                    sym_list.append("end")
+            else:
+                sym_list.append("end")
+            
             f.write(f"{sym_list}\n")
-            #n_traces_per_length.update({n_events: n_traces_per_length.setdefault(n_events, 0) + 1})
+            n_traces_per_length.update({n_events: n_traces_per_length.setdefault(n_events, 0) + 1})
     
+    print(sorted([(v,k) for k,v in n_traces_per_length.items()]))
+    #alphabet = ["a_accepted_complete", "a_activated_complete", "a_approved_complete", "a_cancelled_complete", "a_declined_complete", "a_finalized_complete", "a_partlysubmitted_complete", "a_preaccepted_complete", "a_registered_complete", "a_submitted_complete", "o_accepted_complete", "o_cancelled_complete", "o_created_complete", "o_declined_complete", "o_selected_complete", "o_sent_back_complete", "o_sent_complete", "w_afhandelen_leads_complete", "w_afhandelen_leads_schedule", "w_afhandelen_leads_start", "w_beoordelen_fraude_complete", "w_beoordelen_fraude_schedule", "w_beoordelen_fraude_start", "w_completeren_aanvraag_complete", "w_completeren_aanvraag_schedule", "w_completeren_aanvraag_start", "w_nabellen_incomplete_dossiers_complete", "w_nabellen_incomplete_dossiers_schedule", "w_nabellen_incomplete_dossiers_start", "w_nabellen_offertes_complete", "w_nabellen_offertes_schedule", "w_nabellen_offertes_start", "w_valideren_aanvraag_complete", "w_valideren_aanvraag_schedule", "w_valideren_aanvraag_start", "w_wijzigen_contractgegevens_schedule"]
+
     return sorted(alphabet)
 
 def traces_to_scarlet(traces_file, scarlet_file, alphabet):
@@ -89,7 +129,7 @@ def traces_to_stlnet(traces_file, stlnet_file, alphabet):
                 one_hot = list_to_one_hot(trace, alphabet)
                 output.write(" ".join([" ".join(map(lambda x: str(int(x)), seq)) for seq in one_hot]) + "\n")
 
-def getMutex(alphabet):
+def get_mutex(alphabet):
     mutex_str = " & ".join(["(" + symbol + " i (" + " & ".join(["! " + sym for sym in alphabet if sym != symbol]) + "))" for symbol in alphabet])
     mutex_str = mutex_str + " & (" + " | ".join([symbol for symbol in alphabet]) + ")"
     return "(G(" + mutex_str + "))"
@@ -102,8 +142,7 @@ def main():
     results_file.touch()
 
     # Number of experiments
-    N_FORMULAS = 5
-    N_EXPERIMENTS_PER_FORMULA = 5
+    N_EXPERIMENTS_PER_FORMULA = 4 # 5
 
     # Parameters for RNN
     HIDDEN_DIM = 100
@@ -113,10 +152,35 @@ def main():
     EPSILON = 0.01
 
     # PARAMETERS TO VARY
-    TRACE_LENGTH = 20
-    PREFIX_LEN_START_VALUE = 5
-    PREFIX_LEN_INCREMENT = 5
+    FILTER = True
+    TRACE_LENGTH = [20, 24, 28, 32]
+    #TRACE_LENGTH = [16, 20, 24, 28, 32]
+    #TRACE_LENGTH = [20]
+    
+    if len(TRACE_LENGTH) > 1:
+        PADDING = "EOT"
+    else:
+        PADDING = None
+
+    sorted(TRACE_LENGTH)
+    PREFIX_LEN_START_VALUE = TRACE_LENGTH[0] // 4
+    PREFIX_LEN_INCREMENT = PREFIX_LEN_START_VALUE
     PREFIX_LEN_INCREMENT_ITERATIONS = 3
+
+    symbols_in_formulas = {0: ['a_submitted_complete', 'a_partlysubmitted_complete'],
+                           1: ['w_afhandelen_leads_schedule', 'w_afhandelen_leads_start'],
+                           2: ['w_afhandelen_leads_start', 'w_afhandelen_leads_complete'],
+                           3: ['w_completeren_aanvraag_schedule', 'w_completeren_aanvraag_complete'],
+                           4: ['w_beoordelen_fraude_schedule', 'w_beoordelen_fraude_start'],
+                           5: ['w_beoordelen_fraude_start', 'w_beoordelen_fraude_complete'],
+                           6: ['o_created_complete', 'o_sent_complete', 'o_created_complete'],
+                           7: ['a_accepted_complete', 'a_declined_complete'],
+                           8: ['w_wijzigen_contractgegevens_schedule', 'w_beoordelen_fraude_schedule'],
+                           9: ['o_selected_complete', 'o_created_complete'],
+                           10: ['a_cancelled_complete', 'a_registered_complete'],
+                           11: ['a_cancelled_complete', 'a_activated_complete'],
+                           12: ['a_cancelled_complete', 'a_approved_complete'],
+                           13: ['a_cancelled_complete', 'a_declined_complete']}
 
     # Dictionary to store the results for each configuration
     configuration_results = {}
@@ -125,38 +189,32 @@ def main():
     start_time = time.time()
 
     # Variables to store the results of the current configuration
-    configuration_results[str("real")] = {}
+    configuration_results["real"] = {}
 
     # Create dataset folders and files
     data_folder = pathlib.Path("datasets", "real")
     data_folder.mkdir(parents=True, exist_ok=True)
 
     file_name = "dutch_financial_log"
-    filtered_file_name = f"l{TRACE_LENGTH}"
+    data_file = pathlib.Path(data_folder, f"{file_name}.xes")
+    
+    if FILTER:
+        file_name, data_file = filter_dataset(data_folder, data_file, TRACE_LENGTH)
 
-    data_file = pathlib.Path(data_folder, f"{filtered_file_name}.xes")
+    traces_file = pathlib.Path(data_folder, f"{file_name}.txt")
+    scarlet_file = pathlib.Path(data_folder, f"{file_name}_scarlet.traces")
+    stlnet_file = pathlib.Path(data_folder, f"{file_name}_stlnet.dat")
 
-    if filtered_file_name:
-        filtered_file = pathlib.Path(data_folder, f"{filtered_file_name}.xes")
-        filter_traces_by_length(data_file, filtered_file, TRACE_LENGTH)
-    else:
-        filtered_file_name = file_name
-        filtered_file = data_file
+    alphabet = extract_symbols(data_file, traces_file, max_length=TRACE_LENGTH[-1], padding=PADDING)
+    alphabet.append("end")
 
-    traces_file = pathlib.Path(data_folder, f"{filtered_file_name}.txt")
-    scarlet_file = pathlib.Path(data_folder, f"{filtered_file_name}_scarlet.traces")
-    stlnet_file = pathlib.Path(data_folder, f"{filtered_file_name}_stlnet.dat")
-
-    alphabet = extractSymbols(filtered_file, traces_file)
-    NVAR = len(alphabet)
+    NVAR = len(alphabet) - 1
+    stop_event = [0] * NVAR
+    stop_event.append(1)
 
     traces_to_scarlet(traces_file, scarlet_file, alphabet)
     traces_to_stlnet(traces_file, stlnet_file, alphabet)
-    
-    stop_event = [0] * len(alphabet)
-    stop_event.append(1)
-    alphabet.append("end")
-    
+        
     # Formulas
     formula_folder = pathlib.Path("formulas", "real")
     formula_folder.mkdir(parents=True, exist_ok=True)
@@ -171,7 +229,7 @@ def main():
         for line in f.readlines():
             formulas_infix.append(line.rstrip('\n').replace(" i ", " -> ").replace(" e ", " <-> "))
 
-            formula = "(" + line.rstrip('\n') + ") & " + getMutex(alphabet) # Declare assumption
+            formula = "(" + line.rstrip('\n') + ") & " + get_mutex(alphabet) # Declare assumption
             #print(formula)
             formula_prefix = infix_to_prefix(formula)
             #print("in prefix format:", formula_prefix)
@@ -185,17 +243,40 @@ def main():
 
     # Run experiments for each formula
     for i_form, formula in enumerate(formulas_infix):
-        configuration_results[str("real")][i_form] = {}
-        configuration_results[str("real")][i_form]["results"] = {}
+        #if len(symbols_in_formulas[i_form]) > len(set(symbols_in_formulas[i_form]) & set(alphabet)):
+        #    continue
+
+        configuration_results["real"][i_form] = {}
+        configuration_results["real"][i_form]["results"] = {}
 
         # DFA formula evaluator
         dfa = DFA(formula, NVAR, "declare", alphabet)
         deep_dfa = dfa.return_deep_dfa()
 
+        '''
+        self_alphabet = {}
+        for k, v in enumerate(alphabet):
+            self_alphabet[v] = k
+
+        misalignment = []
+        with open(traces_file, "r") as input:
+            i = 0
+            for line in input:
+                i += 1
+                lst = eval(line.rstrip("\n"))
+                lst = list(map(lambda x: self_alphabet.get(x), lst))
+                if(not dfa.accepts(lst)):
+                    misalignment.append(i)
+        
+        print(i_form)
+        print(misalignment)
+        continue
+        '''
+
         # Dataset
         dataset = torch.tensor(np.loadtxt(stlnet_file))
-        dataset = dataset.view(dataset.size(0), -1, NVAR)
-        dataset = expand_dataset_with_end_of_trace_symbol(dataset)
+        dataset = dataset.view(dataset.size(0), -1, NVAR+1)
+        #dataset = expand_dataset_with_end_of_trace_symbol(dataset)
         dataset = dataset.float()
         num_traces = dataset.size()[0]
 
@@ -388,7 +469,7 @@ def main():
             print(f"Execution time for experiment {exp}: ", end_time - start_time)
 
             # Save the results of the experiment number {exp} for the current formula
-            configuration_results[str("real")][i_form]["results"] = formula_experiment_results
+            configuration_results["real"][i_form]["results"] = formula_experiment_results
             # Save in text file
             results_config_file = pathlib.Path(results_folder, "results.txt")
             with open(results_config_file, "a") as f:

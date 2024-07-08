@@ -9,6 +9,9 @@ def load_all_results():
     newer_results_datetime = ""
 
     for subfolder_results_date in RESULTS_FOLDER.iterdir():
+        if str(subfolder_results_date) == 'results/exceptions.txt':
+            continue
+
         datetime = str(subfolder_results_date).replace("results/results_", "")
         
         if datetime > newer_results_datetime:
