@@ -11,6 +11,7 @@ import pm4py
 import json
 
 from generate_alphabet import get_ct_symbol_name
+import convert_traces_alignment_module as ctam
 
 def trace_names_are_unique(fpath):
     tree = ET.parse(fpath)
@@ -34,11 +35,14 @@ def xes_to_scarlet(include_transitions):
 def xes_to_stlnet(include_transitions):
     return _convertxes(include_transitions, do_scarlet=False, do_stlnet=True)
 
-def _convertxes(include_transitions, *, do_scarlet, do_stlnet):
+def _convertxes(include_transitions, *, do_scarlet, do_stlnet, do_align):
     for filename in Path(__file__).parent.iterdir():
         if filename.suffix == ".xes":
             ### HANDLE FILE
             assert trace_names_are_unique(filename)
+            aligner = None
+            if do_align and filename.with_suffix(".plans.txt").exists():
+                aligner = ctam.Aligner(filename.with_suffix(".plans.txt"))
             log = pm4py.read_xes(str(filename))
             trace_names = log["case:concept:name"].unique()
             include_transitions = include_transitions and "lifecycle:transition" in log.columns
@@ -58,6 +62,10 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet):
                 with open(Path(__file__).parent / alphabet_fname, "r") as f:
                     alphabet = json.load(f)
                 trace_list = [symbolize(row) for row in trace_df.values]
+                if aligner is not None:
+                    # This is IN PLACE
+                    aligner.align_BRUTEFORCE(trace_list, len(traces_scarlet))
+                    print(filename.with_suffix(".plans.txt"), "found.")
                 trace_halfscarlet = [symbol_to_scarlet(s, alphabet) for s in trace_list]
                 traces_scarlet.append(";".join(trace_halfscarlet))
                 lengths.append(str(len(trace_halfscarlet))+"\n")
@@ -85,6 +93,6 @@ def megamerge(directory, suffix):
                     first_write = False
 
 if __name__ == "__main__":
-    _convertxes(True, do_scarlet=True, do_stlnet=True)
+    _convertxes(True, do_scarlet=True, do_stlnet=True, do_align=True)
     megamerge(Path(__file__).parent / "scarlet", ".trace")
     megamerge(Path(__file__).parent / "stlnet", ".dat")
