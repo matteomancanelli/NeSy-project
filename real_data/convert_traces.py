@@ -40,9 +40,18 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet, do_align):
         if filename.suffix == ".xes":
             ### HANDLE FILE
             assert trace_names_are_unique(filename)
+            if include_transitions:
+                alphabet_fname = "ALPHABET_ct.LIST"
+                symbolize = get_ct_symbol_name
+            else:
+                alphabet_fname = "ALPHABET_c.LIST"
+                symbolize = lambda s:s
+            with open(Path(__file__).parent / alphabet_fname, "r") as f:
+                alphabet = json.load(f)
             aligner = None
             if do_align and filename.with_suffix(".plans.txt").exists():
-                aligner = ctam.Aligner(filename.with_suffix(".plans.txt"))
+                aligner = ctam.Aligner(filename.with_suffix(".plans.txt"), alphabet)
+                print(filename.with_suffix(".plans.txt"), "found.")
             log = pm4py.read_xes(str(filename))
             trace_names = log["case:concept:name"].unique()
             include_transitions = include_transitions and "lifecycle:transition" in log.columns
@@ -52,20 +61,12 @@ def _convertxes(include_transitions, *, do_scarlet, do_stlnet, do_align):
                 ### HANDLE TRACE
                 trace_df = log[log["case:concept:name"] == tn]
                 if include_transitions:
-                    alphabet_fname = "ALPHABET_ct.LIST"
-                    symbolize = get_ct_symbol_name
                     trace_df = trace_df[["concept:name", "lifecycle:transition"]]
                 else:
-                    alphabet_fname = "ALPHABET_c.LIST"
-                    symbolize = lambda s:s
                     trace_df = trace_df["concept:name"]
-                with open(Path(__file__).parent / alphabet_fname, "r") as f:
-                    alphabet = json.load(f)
                 trace_list = [symbolize(row) for row in trace_df.values]
                 if aligner is not None:
-                    # This is IN PLACE
-                    aligner.align_BRUTEFORCE(trace_list, len(traces_scarlet))
-                    print(filename.with_suffix(".plans.txt"), "found.")
+                    trace_list = aligner.align(trace_list, len(traces_scarlet))
                 trace_halfscarlet = [symbol_to_scarlet(s, alphabet) for s in trace_list]
                 traces_scarlet.append(";".join(trace_halfscarlet))
                 lengths.append(str(len(trace_halfscarlet))+"\n")
