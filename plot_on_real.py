@@ -9,7 +9,7 @@ def load_all_results():
     newer_results_datetime = ""
 
     for subfolder_results_date in RESULTS_FOLDER.iterdir():
-        if str(subfolder_results_date) == 'results/exceptions.txt':
+        if not str(subfolder_results_date).startswith('results/results'):
             continue
 
         datetime = str(subfolder_results_date).replace("results/results_", "")

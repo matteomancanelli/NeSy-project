@@ -153,9 +153,7 @@ def main():
 
     # PARAMETERS TO VARY
     FILTER = True
-    TRACE_LENGTH = [20, 24, 28, 32]
-    #TRACE_LENGTH = [16, 20, 24, 28, 32]
-    #TRACE_LENGTH = [20]
+    TRACE_LENGTH = [20] # [20, 24, 28, 32]
     
     if len(TRACE_LENGTH) > 1:
         PADDING = "EOT"
@@ -214,7 +212,7 @@ def main():
 
     traces_to_scarlet(traces_file, scarlet_file, alphabet)
     traces_to_stlnet(traces_file, stlnet_file, alphabet)
-        
+    
     # Formulas
     formula_folder = pathlib.Path("formulas", "real")
     formula_folder.mkdir(parents=True, exist_ok=True)
@@ -243,9 +241,6 @@ def main():
 
     # Run experiments for each formula
     for i_form, formula in enumerate(formulas_infix):
-        #if len(symbols_in_formulas[i_form]) > len(set(symbols_in_formulas[i_form]) & set(alphabet)):
-        #    continue
-
         configuration_results["real"][i_form] = {}
         configuration_results["real"][i_form]["results"] = {}
 
@@ -254,23 +249,20 @@ def main():
         deep_dfa = dfa.return_deep_dfa()
 
         '''
-        self_alphabet = {}
+        dict = {}
         for k, v in enumerate(alphabet):
-            self_alphabet[v] = k
+            dict[v] = k
 
-        misalignment = []
+        i = 0
         with open(traces_file, "r") as input:
-            i = 0
             for line in input:
-                i += 1
                 lst = eval(line.rstrip("\n"))
-                lst = list(map(lambda x: self_alphabet.get(x), lst))
+                lst = list(map(lambda x: dict.get(x), lst))
                 if(not dfa.accepts(lst)):
-                    misalignment.append(i)
+                    i += 1
         
-        print(i_form)
-        print(misalignment)
-        continue
+        if i > 0:
+            continue
         '''
 
         # Dataset
