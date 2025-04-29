@@ -2,7 +2,7 @@ import random
 
 
 def infix_to_prefix(formula):
-    precedence = {'!': 3, 'U': 2, 'X': 2, 'F': 2, 'G': 2, '&': 1, '|': 1, 'i': 0, 'e': 0}
+    precedence = {'!': 3, 'X': 2, 'F': 2, 'G': 2, '&': 1, '|': 1, 'i': 0, 'e': 0}
     stack = []
     prefix_formula = []
 
@@ -160,55 +160,55 @@ def prefix_LTL_to_scarlet(formula):
             return formula[:2], ""
 
 
-def prefix_LTL_to_scarlet2(formula):
+def lst_prefix_LTL_to_scarlet(formula):
     if formula[0] == '!':
         ##print("negation formula:", formula)
-        arg, rest = prefix_LTL_to_scarlet2(formula[1:])
+        arg, rest = lst_prefix_LTL_to_scarlet(formula[1:])
         ##print(f"neg: arg:{arg}, rest:{rest}")
         return f"!({arg})", rest
     elif formula[0] == 'X':
         # print("next")
-        arg, rest = prefix_LTL_to_scarlet2(formula[1:])
+        arg, rest = lst_prefix_LTL_to_scarlet(formula[1:])
         # print(f"next: arg:{arg}, rest:{rest}")
         return f"X({arg})", rest
     elif formula[0] == 'F':
         # print("eventually")
-        arg, rest = prefix_LTL_to_scarlet2(formula[1:])
+        arg, rest = lst_prefix_LTL_to_scarlet(formula[1:])
         # print(f"event: arg:{arg}, rest:{rest}")
         return f"F({arg})", rest
     elif formula[0] == 'G':
         # print("globally")
-        arg, rest = prefix_LTL_to_scarlet2(formula[1:])
+        arg, rest = lst_prefix_LTL_to_scarlet(formula[1:])
         # print(f"glob: arg:{arg}, rest:{rest}")
         return f"G({arg})", rest
     elif formula[0] == '&':
         # print("conjunction")
-        arg1, rest = prefix_LTL_to_scarlet2(formula[1:])
-        arg2, rest = prefix_LTL_to_scarlet2(rest)
+        arg1, rest = lst_prefix_LTL_to_scarlet(formula[1:])
+        arg2, rest = lst_prefix_LTL_to_scarlet(rest)
         # print(f"conjun: arg1:{arg1}, arg2:{arg2}, rest:{rest})")
         return f"&({arg1}, {arg2})", rest
     elif formula[0] == '|':
         # print("disjunction")
-        arg1, rest = prefix_LTL_to_scarlet2(formula[1:])
-        arg2, rest = prefix_LTL_to_scarlet2(rest)
+        arg1, rest = lst_prefix_LTL_to_scarlet(formula[1:])
+        arg2, rest = lst_prefix_LTL_to_scarlet(rest)
         # print(f"disjun: arg1:{arg1}, arg2:{arg2}, rest:{rest})")
         return f"|({arg1}, {arg2})", rest
     elif formula[0] == 'i':
         ##print("implication")
-        arg1, rest = prefix_LTL_to_scarlet2(formula[1:])
-        arg2, rest = prefix_LTL_to_scarlet2(rest)
+        arg1, rest = lst_prefix_LTL_to_scarlet(formula[1:])
+        arg2, rest = lst_prefix_LTL_to_scarlet(rest)
         # print(f"implic: arg1:{arg1}, arg2:{arg2}, rest:{rest})")
         return f"->({arg1}, {arg2})", rest
     elif formula[0] == 'e':
         # print("equivalence")
-        arg1, rest = prefix_LTL_to_scarlet2(formula[1:])
-        arg2, rest = prefix_LTL_to_scarlet2(rest)
+        arg1, rest = lst_prefix_LTL_to_scarlet(formula[1:])
+        arg2, rest = lst_prefix_LTL_to_scarlet(rest)
         # print(f"equiv: arg1:{arg1}, arg2:{arg2}, rest:{rest})")
         return f"<->({arg1}, {arg2})", rest
     elif formula[0] == 'U':
         # print("until")
-        arg1, rest = prefix_LTL_to_scarlet2(formula[1:])
-        arg2, rest = prefix_LTL_to_scarlet2(rest)
+        arg1, rest = lst_prefix_LTL_to_scarlet(formula[1:])
+        arg2, rest = lst_prefix_LTL_to_scarlet(rest)
         # print(f"until: arg1:{arg1}, arg2:{arg2}, rest:{rest})")
         return f"U({arg1}, {arg2})", rest
     else:

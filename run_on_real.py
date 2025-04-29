@@ -1,3 +1,4 @@
+import os
 import pathlib
 import time
 import json
@@ -6,133 +7,20 @@ import torch
 
 from statistics import mean
 from copy import deepcopy
-import xml.etree.ElementTree as ET
 
-from LTL2STL import infix_to_prefix, prefix_LTL_to_scarlet2
+from FiniteStateMachine import DFA
 from RNN import LSTM_model
 from training import train
 from evaluation import suffix_prediction_with_temperature_with_stop, evaluate_compliance_with_formula, evaluate_DL_distance, greedy_suffix_prediction_with_stop
-from FiniteStateMachine import DFA
-from utils import expand_dataset_with_end_of_trace_symbol
-from sample_interesting_formulas import list_to_one_hot
+
+from trace_alignment.trace_alignment_handler import align_traces
+from utils import *
 
 if torch.cuda.is_available():
     device = "cuda:0"
 else:
     device = "cpu"
 
-def filter_traces_by_length(log_file, out_file, length):
-    tree = ET.parse(log_file)
-    root = tree.getroot()
-
-    selected_traces = []
-
-    for trace in root.iter('trace'):
-        events = trace.findall('event')
-        
-        if len(events) == length:
-            selected_traces.append(trace)
-
-    new_root = ET.Element(root.tag, root.attrib)
-
-    for trace in selected_traces:
-        new_root.append(trace)
-
-    new_tree = ET.ElementTree(new_root)
-    new_tree.write(out_file, encoding='UTF-8', xml_declaration=True)
-
-    return len(selected_traces)
-
-def combine_log_files(log_file_lst, out_file):
-    tree = ET.parse(log_file_lst[0])
-    root = tree.getroot()
-
-    new_root = ET.Element(root.tag, root.attrib)
-
-    for file in log_file_lst:
-        tree = ET.parse(file)
-        root = tree.getroot()
-        
-        for trace in root.iter('trace'):
-            new_root.append(trace)
-
-    new_tree = ET.ElementTree(new_root)
-    new_tree.write(out_file, encoding='UTF-8', xml_declaration=True)
-
-def filter_dataset(data_folder, data_file, trace_length_lst):
-    filtered_file_name =  "l" + '-'.join(str(l) for l in trace_length_lst)
-    log_file_lst = []
-
-    for length in trace_length_lst:
-        filtered_file = pathlib.Path(data_folder, f"l{length}.xes")
-        filter_traces_by_length(data_file, filtered_file, length)
-        log_file_lst.append(filtered_file)
-    
-    if len(trace_length_lst) > 1:
-        filtered_file = pathlib.Path(data_folder, f"{filtered_file_name}.xes")
-        combine_log_files(log_file_lst, filtered_file)
-    
-    return filtered_file_name, filtered_file
-
-def extract_symbols(log_file, traces_file, max_length, padding=None):
-    tree = ET.parse(log_file)
-    root = tree.getroot()
-
-    alphabet = set()
-    n_traces_per_length = {}
-
-    with open(traces_file, "w") as f:
-        for trace in root.iter('trace'):
-            n_events = 0
-            sym_list = []
-
-            for event in trace.iter('event'):
-                n_events += 1
-
-                for string in event.findall("string"):
-                    if string.attrib.get('key') == 'lifecycle:transition':
-                        transaction = string.attrib.get('value').lower()
-                    if string.attrib.get('key') == 'concept:name':
-                        concept = string.attrib.get('value').lower().replace(" ", "_")
-                    
-                symbol = concept + "_" + transaction
-                sym_list.append(symbol)
-                alphabet.add(symbol)
-            
-            if padding == "EOT":
-                while len(sym_list) < max_length + 1:
-                    sym_list.append("end")
-            else:
-                sym_list.append("end")
-            
-            f.write(f"{sym_list}\n")
-            n_traces_per_length.update({n_events: n_traces_per_length.setdefault(n_events, 0) + 1})
-    
-    print(sorted([(v,k) for k,v in n_traces_per_length.items()]))
-    #alphabet = ["a_accepted_complete", "a_activated_complete", "a_approved_complete", "a_cancelled_complete", "a_declined_complete", "a_finalized_complete", "a_partlysubmitted_complete", "a_preaccepted_complete", "a_registered_complete", "a_submitted_complete", "o_accepted_complete", "o_cancelled_complete", "o_created_complete", "o_declined_complete", "o_selected_complete", "o_sent_back_complete", "o_sent_complete", "w_afhandelen_leads_complete", "w_afhandelen_leads_schedule", "w_afhandelen_leads_start", "w_beoordelen_fraude_complete", "w_beoordelen_fraude_schedule", "w_beoordelen_fraude_start", "w_completeren_aanvraag_complete", "w_completeren_aanvraag_schedule", "w_completeren_aanvraag_start", "w_nabellen_incomplete_dossiers_complete", "w_nabellen_incomplete_dossiers_schedule", "w_nabellen_incomplete_dossiers_start", "w_nabellen_offertes_complete", "w_nabellen_offertes_schedule", "w_nabellen_offertes_start", "w_valideren_aanvraag_complete", "w_valideren_aanvraag_schedule", "w_valideren_aanvraag_start", "w_wijzigen_contractgegevens_schedule"]
-
-    return sorted(alphabet)
-
-def traces_to_scarlet(traces_file, scarlet_file, alphabet):
-    with open(traces_file, "r") as input:
-        with open(scarlet_file, "w") as output:
-            for line in input:
-                trace = eval(line.rstrip("\n"))
-                one_hot = list_to_one_hot(trace, alphabet)
-                output.write(";".join([",".join(map(lambda x: str(int(x)), seq)) for seq in one_hot]) + "\n")
-
-def traces_to_stlnet(traces_file, stlnet_file, alphabet):
-    with open(traces_file, "r") as input:
-        with open(stlnet_file, "w") as output:
-            for line in input:
-                trace = eval(line.rstrip("\n"))
-                one_hot = list_to_one_hot(trace, alphabet)
-                output.write(" ".join([" ".join(map(lambda x: str(int(x)), seq)) for seq in one_hot]) + "\n")
-
-def get_mutex(alphabet):
-    mutex_str = " & ".join(["(" + symbol + " i (" + " & ".join(["! " + sym for sym in alphabet if sym != symbol]) + "))" for symbol in alphabet])
-    mutex_str = mutex_str + " & (" + " | ".join([symbol for symbol in alphabet]) + ")"
-    return "(G(" + mutex_str + "))"
 
 def main():
     experiment_datetime = time.strftime("%Y-%m-%d_%H-%M-%S")
@@ -142,7 +30,7 @@ def main():
     results_file.touch()
 
     # Number of experiments
-    N_EXPERIMENTS_PER_FORMULA = 4 # 5
+    N_EXPERIMENTS_PER_FORMULA = 4
 
     # Parameters for RNN
     HIDDEN_DIM = 100
@@ -154,31 +42,12 @@ def main():
     # PARAMETERS TO VARY
     FILTER = True
     TRACE_LENGTH = [20] # [20, 24, 28, 32]
-    
-    if len(TRACE_LENGTH) > 1:
-        PADDING = "EOT"
-    else:
-        PADDING = None
+    ALIGN = "none" # (choose among none, data and test)
 
     sorted(TRACE_LENGTH)
     PREFIX_LEN_START_VALUE = TRACE_LENGTH[0] // 4
     PREFIX_LEN_INCREMENT = PREFIX_LEN_START_VALUE
     PREFIX_LEN_INCREMENT_ITERATIONS = 3
-
-    symbols_in_formulas = {0: ['a_submitted_complete', 'a_partlysubmitted_complete'],
-                           1: ['w_afhandelen_leads_schedule', 'w_afhandelen_leads_start'],
-                           2: ['w_afhandelen_leads_start', 'w_afhandelen_leads_complete'],
-                           3: ['w_completeren_aanvraag_schedule', 'w_completeren_aanvraag_complete'],
-                           4: ['w_beoordelen_fraude_schedule', 'w_beoordelen_fraude_start'],
-                           5: ['w_beoordelen_fraude_start', 'w_beoordelen_fraude_complete'],
-                           6: ['o_created_complete', 'o_sent_complete', 'o_created_complete'],
-                           7: ['a_accepted_complete', 'a_declined_complete'],
-                           8: ['w_wijzigen_contractgegevens_schedule', 'w_beoordelen_fraude_schedule'],
-                           9: ['o_selected_complete', 'o_created_complete'],
-                           10: ['a_cancelled_complete', 'a_registered_complete'],
-                           11: ['a_cancelled_complete', 'a_activated_complete'],
-                           12: ['a_cancelled_complete', 'a_approved_complete'],
-                           13: ['a_cancelled_complete', 'a_declined_complete']}
 
     # Dictionary to store the results for each configuration
     configuration_results = {}
@@ -202,14 +71,19 @@ def main():
     traces_file = pathlib.Path(data_folder, f"{file_name}.txt")
     scarlet_file = pathlib.Path(data_folder, f"{file_name}_scarlet.traces")
     stlnet_file = pathlib.Path(data_folder, f"{file_name}_stlnet.dat")
+    
+    alphabet = ["a_accepted_complete", "a_activated_complete", "a_approved_complete", "a_cancelled_complete", "a_declined_complete", "a_finalized_complete", "a_partlysubmitted_complete", "a_preaccepted_complete", "a_registered_complete", "a_submitted_complete", "o_accepted_complete", "o_cancelled_complete", "o_created_complete", "o_declined_complete", "o_selected_complete", "o_sent_back_complete", "o_sent_complete", "w_afhandelen_leads_complete", "w_afhandelen_leads_schedule", "w_afhandelen_leads_start", "w_beoordelen_fraude_complete", "w_beoordelen_fraude_schedule", "w_beoordelen_fraude_start", "w_completeren_aanvraag_complete", "w_completeren_aanvraag_schedule", "w_completeren_aanvraag_start", "w_nabellen_incomplete_dossiers_complete", "w_nabellen_incomplete_dossiers_schedule", "w_nabellen_incomplete_dossiers_start", "w_nabellen_offertes_complete", "w_nabellen_offertes_schedule", "w_nabellen_offertes_start", "w_valideren_aanvraag_complete", "w_valideren_aanvraag_schedule", "w_valideren_aanvraag_start", "w_wijzigen_contractgegevens_schedule"]
+    alphabet = sorted(alphabet)
+    NVAR = len(alphabet)
 
-    alphabet = extract_symbols(data_file, traces_file, max_length=TRACE_LENGTH[-1], padding=PADDING)
     alphabet.append("end")
-
-    NVAR = len(alphabet) - 1
     stop_event = [0] * NVAR
     stop_event.append(1)
 
+    if ALIGN == "data":
+        align_traces(data_file, traces_file, max_length=TRACE_LENGTH[-1])
+    else:
+        log_to_traces(data_file, traces_file, max_length=TRACE_LENGTH[-1])
     traces_to_scarlet(traces_file, scarlet_file, alphabet)
     traces_to_stlnet(traces_file, stlnet_file, alphabet)
     
@@ -218,63 +92,52 @@ def main():
     formula_folder.mkdir(parents=True, exist_ok=True)
 
     formula_file = pathlib.Path(formula_folder, "formulas.txt")
-    formula_scarlet_file = pathlib.Path(formula_folder, "formula_scarlet.txt")
+    #formula_scarlet_file = pathlib.Path(formula_folder, "formula_scarlet.txt")
 
     with open(formula_file, "r") as f:
-        formulas_infix = []
-        formula_scarlet_lst = []
-
-        for line in f.readlines():
-            formulas_infix.append(line.rstrip('\n').replace(" i ", " -> ").replace(" e ", " <-> "))
-
-            formula = "(" + line.rstrip('\n') + ") & " + get_mutex(alphabet) # Declare assumption
-            #print(formula)
-            formula_prefix = infix_to_prefix(formula)
-            #print("in prefix format:", formula_prefix)
-            formula_scarlet, _ = prefix_LTL_to_scarlet2(formula_prefix.split(" "))
-            #print("in scarlet format:", formula_scarlet)
-            formula_scarlet_lst.append(formula_scarlet)
+        formulas = [line.rstrip('\n').replace(" i ", " -> ").replace(" e ", " <-> ") for line in f.readlines()]
     
-    with open(formula_scarlet_file, "w") as f:
-        for formula in formula_scarlet_lst:
-            f.write(f"{formula};" + ','.join([symbol for symbol in alphabet])  + "\n")
-
     # Run experiments for each formula
-    for i_form, formula in enumerate(formulas_infix):
+    for i_form, formula in enumerate(formulas):
         configuration_results["real"][i_form] = {}
         configuration_results["real"][i_form]["results"] = {}
 
         # DFA formula evaluator
         dfa = DFA(formula, NVAR, "declare", alphabet)
         deep_dfa = dfa.return_deep_dfa()
-
-        '''
-        dict = {}
-        for k, v in enumerate(alphabet):
-            dict[v] = k
-
-        i = 0
-        with open(traces_file, "r") as input:
-            for line in input:
-                lst = eval(line.rstrip("\n"))
-                lst = list(map(lambda x: dict.get(x), lst))
-                if(not dfa.accepts(lst)):
-                    i += 1
         
-        if i > 0:
-            continue
-        '''
-
         # Dataset
         dataset = torch.tensor(np.loadtxt(stlnet_file))
         dataset = dataset.view(dataset.size(0), -1, NVAR+1)
-        #dataset = expand_dataset_with_end_of_trace_symbol(dataset)
         dataset = dataset.float()
         num_traces = dataset.size()[0]
 
         # Splitting in train and test
         train_dataset = dataset[: int(TRAIN_RATIO * num_traces)]
         test_dataset = dataset[int(TRAIN_RATIO * num_traces) :]
+
+        if ALIGN == "test":
+            test_log_file = pathlib.Path(data_folder, f"test.xes")
+            test_traces_file = pathlib.Path(data_folder, f"test.txt")
+            test_stlnet_file = pathlib.Path(data_folder, f"test_stlnet.dat")
+
+            # Convert test dataset to files
+            tensor_to_stlnet(test_dataset, test_stlnet_file)
+            stlnet_to_traces(test_stlnet_file, test_traces_file, alphabet)
+            traces_to_xes(test_traces_file, test_log_file)
+
+            # Align and convert back
+            align_traces(test_log_file, test_traces_file, max_length=TRACE_LENGTH[-1])
+            traces_to_stlnet(test_traces_file, test_stlnet_file, alphabet)
+            
+            # Load aligned test dataset
+            test_dataset = torch.tensor(np.loadtxt(test_stlnet_file))  # Changed to test_stlnet_file
+            test_dataset = test_dataset.view(test_dataset.size(0), -1, NVAR+1)  # Use test_dataset size
+            test_dataset = test_dataset.float()
+
+            os.remove(test_log_file)
+            os.remove(test_traces_file)
+            os.remove(test_stlnet_file)
 
         # Variables to store the results of each experiment of the current formula, and for each prefix length value
         formula_experiment_results = {}
@@ -396,7 +259,7 @@ def main():
                 model = deepcopy(rnn_bk).to(device)
                 
                 # Training
-                train_acc, test_acc = train(model, train_dataset, test_dataset, MAX_NUM_EPOCHS, EPSILON, deepdfa=deep_dfa, prefix_len=current_prefix_len)
+                train_acc, test_acc = train(model, train_dataset, test_dataset, MAX_NUM_EPOCHS, EPSILON, deepdfa=deep_dfa, prefix_len=current_prefix_len, logic_loss_type = "multiple_samples")
                 
                 # Save the model
                 model_file = pathlib.Path(results_folder, f"model_rnn_bk_formula_{i_form}_exp_{exp}_prefix_len_{current_prefix_len}.pt")
@@ -480,6 +343,7 @@ def main():
             results_config_json_file = pathlib.Path(results_folder, "results.json")
             with open(results_config_json_file, "w+") as f:
                 json.dump(configuration_results, f, indent=4)
+
 
 if __name__ == "__main__":
     try:

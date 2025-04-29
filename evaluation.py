@@ -170,6 +170,130 @@ def logic_loss(rnn, deepdfa, data, prefix_len, temperature=1.0):
 
     return loss
 
+def _logic_loss_multiple_samples_for_loop(rnn, deepdfa, data, prefix_len, temperature=1.0, num_samples=10):
+    dataset = data.to(device)
+    prefix = dataset[:, :prefix_len, :]
+
+    batch_size, len_traces, num_activities = dataset.size()
+    target = torch.ones(batch_size, dtype=torch.long, device=device)
+
+    next_event, rnn_state = rnn(prefix)
+    dfa_states, dfa_rew = deepdfa.forward_pi(prefix)
+
+    dfa_state = dfa_states[:, -1, :]
+    score = torch.zeros((batch_size, 2)).to(device)
+
+    tot_prob = torch.zeros((batch_size, 1)).to(device)
+    for n in range(num_samples):
+        prob_traces = torch.ones((batch_size, 1)).to(device)
+        for step in range(prefix_len, int(len_traces*(1.5))):
+            next_event = next_event[:, -1:, :]
+            next_event_one_hot = gumbel_softmax(next_event, temperature)
+
+            prob_traces = prob_traces * torch.sum(torch.nn.functional.softmax( next_event, dim=-1) * next_event_one_hot, dim = -1)
+
+            #transit on the automaton
+            dfa_state, dfa_rew = deepdfa.step_pi(dfa_state, next_event_one_hot.squeeze())
+
+            next_event, rnn_state = rnn.forward_from_state(next_event_one_hot, rnn_state)
+
+        #prob_traces = torch.sum(prob_traces, dim= -1)
+        score += prob_traces *dfa_rew
+        tot_prob += prob_traces
+
+    loss = cross_entr_func(score/tot_prob, target)
+
+    return loss
+
+# new logic loss without for loop
+# prob of a trace is calculated as the product of each symbol (vanishing prob for long traces!)
+def logic_loss_multiple_samples_product(rnn, deepdfa, data, prefix_len, temperature=1.0, num_samples=10):
+    dataset = data.to(device)
+    prefix = dataset[:, :prefix_len, :]
+
+    batch_size, len_traces, num_activities = dataset.size()
+    target = torch.ones(batch_size, dtype=torch.long, device=device)
+
+    #extend prefix
+    prefix = prefix.unsqueeze(1).repeat(1, num_samples, 1, 1).view(-1, prefix_len, num_activities)
+
+    #calculate next symbol and dfa state
+    next_event, rnn_state = rnn(prefix)
+
+    dfa_states, dfa_rew = deepdfa.forward_pi(prefix)
+
+    dfa_state = dfa_states[:, -1, :]
+
+
+    prob_traces = torch.ones((batch_size*num_samples, 1)).to(device)
+    for step in range(prefix_len, int(len_traces*(1.5))):
+            next_event = next_event[:, -1:, :]
+            next_event_one_hot = gumbel_softmax(next_event, temperature)
+
+            prob_traces = prob_traces * torch.sum(torch.nn.functional.softmax( next_event, dim=-1) * next_event_one_hot, dim=-1)
+
+            #transit on the automaton
+            dfa_state, dfa_rew = deepdfa.step_pi(dfa_state, next_event_one_hot.squeeze())
+
+            #transit the rnn
+            next_event, rnn_state = rnn.forward_from_state(next_event_one_hot, rnn_state)
+
+
+    dfa_rew = dfa_rew.view(batch_size, num_samples, 2)
+    prob_traces = prob_traces.view(batch_size, num_samples, 1)
+
+    score = torch.sum(dfa_rew *prob_traces, dim= 1)
+    tot_prob = torch.sum(prob_traces, dim=1)
+
+    loss = cross_entr_func(score/tot_prob, target)
+
+    return loss
+
+# new logic loss without for loop
+# we calculate the logprob of a trace as the sum of log prob of each symbol (NO vanishing prob for long traces!)
+def logic_loss_multiple_samples(rnn, deepdfa, data, prefix_len, temperature=1.0, num_samples=10):
+    dataset = data.to(device)
+    prefix = dataset[:, :prefix_len, :]
+
+    batch_size, len_traces, num_activities = dataset.size()
+    target = torch.ones(batch_size, dtype=torch.long, device=device)
+
+    #extend prefix
+    prefix = prefix.unsqueeze(1).repeat(1, num_samples, 1, 1).view(-1, prefix_len, num_activities)
+
+    #calculate next symbol and dfa state
+    next_event, rnn_state = rnn(prefix)
+
+    dfa_states, dfa_rew = deepdfa.forward_pi(prefix)
+
+    dfa_state = dfa_states[:, -1, :]
+
+
+    log_prob_traces = torch.zeros((batch_size*num_samples, 1)).to(device)
+    for step in range(prefix_len, int(len_traces*(1.5))):
+            next_event = next_event[:, -1:, :]
+            next_event_one_hot = gumbel_softmax(next_event, temperature)
+
+            log_prob_traces += torch.sum( next_event * next_event_one_hot, dim=-1)
+
+            #transit on the automaton
+            dfa_state, dfa_rew = deepdfa.step_pi(dfa_state, next_event_one_hot.squeeze())
+
+            #transit the rnn
+            next_event, rnn_state = rnn.forward_from_state(next_event_one_hot, rnn_state)
+
+
+    dfa_rew = dfa_rew.view(batch_size, num_samples, 2)
+    dfa_rew = dfa_rew[:,:,1]
+    log_prob_traces = log_prob_traces.view(batch_size, num_samples)
+
+    prob_acceptance = torch.sum( torch.nn.functional.softmax(log_prob_traces, dim=-1) * dfa_rew, dim=-1)
+
+    loss = -torch.log(prob_acceptance.clamp(min=1e-10)).mean()
+
+
+    return loss
+
 def suffix_prediction_with_temperature_with_stop(model, dataset, prefix_len, stop_event=[0,0,0,1], temperature=1.0):
     dataset = dataset.to(device)
     prefix = dataset[:, :prefix_len, :]
@@ -237,30 +361,31 @@ def greedy_suffix_prediction_with_stop(rnn, dataset, prefix_len, stop_event=[0,0
 
     return predicted_traces
 
-def suffix_prediction_beam_search(rnn, dataset, prefix_len, stop_event = torch.tensor([0, 0, 0, 1]).float()):
+def suffix_prediction_beam_search(k, rnn, dataset, prefix_len, stop_event = torch.tensor([0, 0, 0, 1]).float()):
     dataset = dataset.to(device)
     prefix = dataset[:, :prefix_len, :]
 
     len_traces = dataset.size()[1]
 
-    predicted_traces = beam_search(rnn, prefix, 3, len_traces*2, stop_event.to(device))
-
-    '''
-    #TODO: padd the predicted traces with end symbol
-    print(prefix[:3,:,:])
-    print(prefix.size())
-    print(len(suffixes))
-    for s in suffixes[:3]:
-        print(s.size())
-        print(s)
+    predicted_traces = beam_search(rnn, prefix, k, len_traces*2, stop_event.to(device))
+    print("____#### PREDICTED TRACES ####____")
+    for pt in predicted_traces[:5]:
+        print(pt.size())
+        print(pt)
+    #padd the predicted traces with end symbol
+    predicted_traces = pad_sequences_with_stop_event(predicted_traces, stop_event)
+    print("____#### PADDED TRACES ####____")
+    for pt in predicted_traces[:5]:
+        print(pt.size())
+        print(pt)
     assert False
     return predicted_traces
-    '''
 
 def beam_search(model, prefixes, beam_width, max_length, stop_event):
     suffixes = []
     with torch.no_grad():
         for prefix in prefixes:
+            #print("PREFIX: ", prefix)
             prefix_tensor = prefix
             beams = [(prefix_tensor, 1.0)]
             generated_new_beam = True
@@ -268,10 +393,15 @@ def beam_search(model, prefixes, beam_width, max_length, stop_event):
             while generated_new_beam:
                 generated_new_beam = False
                 new_beams = []
+                '''
+                print("____##### BEAMS: ####_____")
+                for b in beams:
+                    print(b[0].size())
+                    print(b)
+                '''
                 for beam in beams:
                     prefix_tensor, prob = beam
-                    #print(prefix_tensor)
-                    #print(stop_event)
+
                     if len(prefix_tensor) >= max_length or torch.equal(prefix_tensor[-1], stop_event):
                         new_beams.append(beam)
                         continue
@@ -279,23 +409,17 @@ def beam_search(model, prefixes, beam_width, max_length, stop_event):
                         generated_new_beam = True
                     output, _ = model(prefix_tensor.unsqueeze(0))
                     next_event_probs = F.softmax(output[:, -1, :], dim=-1)
-                    #print("next event probs:", next_event_probs)
-                    top_probs, top_indices = torch.topk(next_event_probs, beam_width, dim=-1)
-                    #print("top probs:", top_probs)
-                    #print("top indices:", top_indices)
+                    top_probs, top_indices = torch.topk(next_event_probs, beam_width, dim=-1) #here possibly put a width greater than beam_width
+
                     for i in range(beam_width):
                         index = top_indices[0][i].item()
                         new_prefix_tensor = torch.cat([prefix_tensor, torch.zeros(1, model.input_size).to(device)])
                         new_prefix_tensor[-1][index] = 1.0
                         new_prob = prob * top_probs[0][i].item()
                         new_beams.append((new_prefix_tensor, new_prob))
-                    #print("______new beams:")
-                    #for b in new_beams:
-                        #print("seq:", b[0])
-                        #print("prob:", b[1])
+
                 new_beams.sort(key=lambda x: x[1], reverse=True)
                 beams = new_beams[:beam_width]
-
             # Choose the top-scoring suffix for the current prefix
             suffixes.append(beams[0][0])
     return suffixes
@@ -310,7 +434,7 @@ def pad_sequences_with_stop_event(sequences, stop_event):
     # Pad sequences and replace last row with stop_event
     for i, seq in enumerate(sequences):
         padded_sequences[i, :len(seq)] = seq
-        padded_sequences[i, len(seq)-1] = stop_event
+        padded_sequences[i, len(seq):] = stop_event
     return padded_sequences
 def suffix_prediction_beam_search_ltl(k, rnn, dataset, prefix_len, deep_dfa, stop_event = torch.tensor([0, 0, 0, 1]).float()):
     dataset = dataset.to(device)
@@ -368,18 +492,16 @@ def beam_search_with_ltl(model, prefixes, beam_width, max_length, stop_event, de
                 beams = new_beams[:beam_width]
 
 
-            # Choose the top-scoring suffix compliant with the ltl
-            found_compliant = False
-            for beam in beams:
-                r, _ = deepdfa.forward_pi(beam[0].unsqueeze(0))
-                accepted = r[:, -1, -1]
-                if accepted > 0:
-                    suffixes.append(beam[0])
-                    found_compliant = True
-                    break
+                # Choose the top-scoring suffix compliant with the ltl
+                # note: compliance check also if the suffix has ended
+                for beam in beams:
+                    r, _ = deepdfa.forward_pi(beam[0].unsqueeze(0))
+                    accepted = r[:, -1, -1]
+                    if accepted > 0:
+                        suffixes.append(beam[0])
+                        break
             #if none of the predicted suffixes is compliant return the most probable
-            if not found_compliant:
-                suffixes.append(beams[0][0])
+            suffixes.append(beams[0][0])
     return suffixes
 def evaluate_compliance_with_formula(deepdfa, traces):
     traces = torch.argmax(traces, dim= -1)
@@ -435,8 +557,6 @@ def evaluate_DL_distance(predicted_traces, target_traces):
         DL_dists.append(damerau_levenshtein_distance(pred, targ))
 
     return mean(DL_dists)
-
-import torch
 
 def tensor_to_string(one_hot_tensor):
     end_symbol = one_hot_tensor.size()[-1] -1

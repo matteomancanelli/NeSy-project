@@ -5,20 +5,20 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 def load_all_results():
-    newer_results_folder = ""
-    newer_results_datetime = ""
+    results_folder = ""
+    results_datetime = ""
 
-    for subfolder_results_date in RESULTS_FOLDER.iterdir():
-        if not str(subfolder_results_date).startswith('results/results'):
+    for subfolder in FOLDER.iterdir():
+        if not str(subfolder).startswith('results/results'):
             continue
 
-        datetime = str(subfolder_results_date).replace("results/results_", "")
+        datetime = str(subfolder).replace("results/results_", "")
         
-        if datetime > newer_results_datetime:
-            newer_results_datetime = str(subfolder_results_date).replace("results/results_", "")
-            newer_results_folder = subfolder_results_date
+        if datetime > results_datetime:
+            results_datetime = str(subfolder).replace("results/results_", "")
+            results_folder = subfolder
 
-    results_file = pathlib.Path(newer_results_folder, "results.json")
+    results_file = pathlib.Path(results_folder, "results.json")
 
     try:
         with open(results_file, "r") as f:
@@ -26,7 +26,7 @@ def load_all_results():
     except FileNotFoundError:
         print(f"File {results_file} not found")
 
-    return results, newer_results_datetime
+    return results, results_datetime
 
 def summarise_results(results):
     for configuration in results:
@@ -159,10 +159,9 @@ def plot(configuration_name, configuration_dict, sample_size, metric):
 
 
 CONFIGS = ["real"]
-SAMPLE_SIZES = [222]
 PREFIX_LENGTHS = [5, 10, 15]
 
-RESULTS_FOLDER = pathlib.Path("results")
+FOLDER = pathlib.Path("results")
 
 
 if __name__ == "__main__":

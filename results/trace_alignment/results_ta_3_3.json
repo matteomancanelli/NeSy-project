@@ -1,0 +1,1582 @@
+{
+    "(3, 3)": {
+        "0": {
+            "250": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "1000": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            }
+        },
+        "1": {
+            "250": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "1000": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [
+                            9.5,
+                            9.28,
+                            16.84,
+                            9.23,
+                            23.69
+                        ],
+                        "test_sat_rnn": [
+                            0.75,
+                            0.7599999904632568,
+                            0.7999999523162842,
+                            0.85999995470047,
+                            0.8299999833106995
+                        ],
+                        "test_DL_rnn_ta": [
+                            12.25,
+                            13.02,
+                            21.1,
+                            13.7,
+                            30.68
+                        ],
+                        "test_sat_rnn_ta": [
+                            0.7899999618530273,
+                            0.7999999523162842,
+                            0.8799999952316284,
+                            0.8199999928474426,
+                            0.8299999833106995
+                        ],
+                        "test_DL_rnn_bk": [
+                            9.18,
+                            15.08,
+                            12.15,
+                            11.65,
+                            13.4
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.7999999523162842,
+                            0.8100000023841858,
+                            0.8799999952316284,
+                            0.8199999928474426,
+                            0.7799999713897705
+                        ],
+                        "test_DL_rnn_greedy": [
+                            8.25,
+                            8.52,
+                            22.83,
+                            8.57,
+                            25.73
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.9399999976158142,
+                            0.8199999928474426,
+                            1.0,
+                            0.949999988079071,
+                            0.6399999856948853
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            10.85,
+                            11.12,
+                            24.38,
+                            11.28,
+                            29.08
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            0.9399999976158142,
+                            0.8199999928474426,
+                            1.0,
+                            0.949999988079071,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            10.18,
+                            30.13,
+                            32.38,
+                            9.64,
+                            29.9
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0
+                        ]
+                    },
+                    "10": {
+                        "test_DL_rnn": [
+                            6.36,
+                            6.26,
+                            16.59,
+                            7.09,
+                            22.62
+                        ],
+                        "test_sat_rnn": [
+                            0.7400000095367432,
+                            0.8499999642372131,
+                            0.8899999856948853,
+                            0.8899999856948853,
+                            0.8199999928474426
+                        ],
+                        "test_DL_rnn_ta": [
+                            11.5,
+                            11.45,
+                            18.42,
+                            12.63,
+                            30.82
+                        ],
+                        "test_sat_rnn_ta": [
+                            0.7899999618530273,
+                            0.8399999737739563,
+                            0.8700000047683716,
+                            0.85999995470047,
+                            0.8999999761581421
+                        ],
+                        "test_DL_rnn_bk": [
+                            14.06,
+                            11.41,
+                            7.08,
+                            22.19,
+                            6.32
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.8299999833106995,
+                            0.85999995470047,
+                            0.8700000047683716,
+                            0.9300000071525574,
+                            0.8399999737739563
+                        ],
+                        "test_DL_rnn_greedy": [
+                            6.28,
+                            5.63,
+                            22.35,
+                            5.77,
+                            23.91
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.85999995470047,
+                            0.8199999928474426,
+                            1.0,
+                            0.9199999570846558,
+                            0.6100000143051147
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            10.31,
+                            10.71,
+                            25.28,
+                            10.93,
+                            28.59
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            0.85999995470047,
+                            0.8199999928474426,
+                            1.0,
+                            0.9199999570846558,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            28.55,
+                            28.68,
+                            5.38,
+                            28.43,
+                            5.91
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            1.0
+                        ]
+                    },
+                    "15": {
+                        "test_DL_rnn": [
+                            5.52,
+                            4.74,
+                            10.92,
+                            4.47,
+                            21.79
+                        ],
+                        "test_sat_rnn": [
+                            0.7799999713897705,
+                            0.8799999952316284,
+                            0.9099999666213989,
+                            0.8999999761581421,
+                            0.8100000023841858
+                        ],
+                        "test_DL_rnn_ta": [
+                            11.81,
+                            12.33,
+                            20.65,
+                            11.51,
+                            30
+                        ],
+                        "test_sat_rnn_ta": [
+                            0.7899999618530273,
+                            0.8100000023841858,
+                            0.8700000047683716,
+                            0.9399999976158142,
+                            0.8700000047683716
+                        ],
+                        "test_DL_rnn_bk": [
+                            16.52,
+                            10.4,
+                            10.16,
+                            8.45,
+                            16.6
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.8299999833106995,
+                            0.8999999761581421,
+                            0.9399999976158142,
+                            0.9599999785423279,
+                            0.9199999570846558
+                        ],
+                        "test_DL_rnn_greedy": [
+                            3.82,
+                            3.05,
+                            19.25,
+                            3.53,
+                            22.2
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.7899999618530273,
+                            0.8299999833106995,
+                            1.0,
+                            0.9199999570846558,
+                            0.5699999928474426
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            10.36,
+                            10.69,
+                            24.24,
+                            10.78,
+                            28.33
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            0.7899999618530273,
+                            0.8299999833106995,
+                            1.0,
+                            0.9199999570846558,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            25.43,
+                            25.34,
+                            2.92,
+                            8.39,
+                            25.15
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            0.0,
+                            0.0,
+                            1.0,
+                            1.0,
+                            0.0
+                        ]
+                    }
+                }
+            }
+        },
+        "2": {
+            "250": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "1000": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            }
+        },
+        "3": {
+            "250": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "1000": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [
+                            9.94,
+                            18.49,
+                            15.77,
+                            17.73,
+                            10.25
+                        ],
+                        "test_sat_rnn": [
+                            0.949999988079071,
+                            0.9799999594688416,
+                            0.9899999499320984,
+                            0.75,
+                            0.6200000047683716
+                        ],
+                        "test_DL_rnn_ta": [
+                            13,
+                            20.3,
+                            21.7,
+                            26.95,
+                            12.36
+                        ],
+                        "test_sat_rnn_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk": [
+                            9.21,
+                            18.49,
+                            9.44,
+                            11.57,
+                            9.29
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.9399999976158142,
+                            0.9799999594688416,
+                            0.9799999594688416,
+                            0.7400000095367432,
+                            0.6299999952316284
+                        ],
+                        "test_DL_rnn_greedy": [
+                            8.19,
+                            25.7,
+                            8.33,
+                            28.61,
+                            8.65
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.9599999785423279,
+                            0.9399999976158142,
+                            1.0,
+                            0.0,
+                            0.6499999761581421
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            10.9,
+                            28.29,
+                            10.49,
+                            31.25,
+                            12.2
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            8.06,
+                            30.86,
+                            8.42,
+                            11.17,
+                            8.29
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            1.0,
+                            0.0,
+                            1.0,
+                            0.7599999904632568,
+                            0.6499999761581421
+                        ]
+                    },
+                    "10": {
+                        "test_DL_rnn": [
+                            7.13,
+                            15.27,
+                            14.02,
+                            15.06,
+                            6.84
+                        ],
+                        "test_sat_rnn": [
+                            0.9799999594688416,
+                            1.0,
+                            1.0,
+                            0.7599999904632568,
+                            0.6399999856948853
+                        ],
+                        "test_DL_rnn_ta": [
+                            12.15,
+                            25.7,
+                            21.12,
+                            23.47,
+                            12.84
+                        ],
+                        "test_sat_rnn_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk": [
+                            7.92,
+                            16.96,
+                            6.96,
+                            23.02,
+                            8.52
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.9699999690055847,
+                            0.9699999690055847,
+                            1.0,
+                            0.7400000095367432,
+                            0.6499999761581421
+                        ],
+                        "test_DL_rnn_greedy": [
+                            5.9,
+                            22.53,
+                            5.38,
+                            26.8,
+                            6.34
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.9799999594688416,
+                            0.9899999499320984,
+                            0.9799999594688416,
+                            0.0,
+                            0.6299999952316284
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            10.61,
+                            26.18,
+                            10.62,
+                            31.13,
+                            11.88
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            5.74,
+                            26.62,
+                            5.77,
+                            9.63,
+                            6.29
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            1.0,
+                            0.0,
+                            1.0,
+                            0.7599999904632568,
+                            0.6499999761581421
+                        ]
+                    },
+                    "15": {
+                        "test_DL_rnn": [
+                            3.77,
+                            21.26,
+                            12.77,
+                            15.56,
+                            3.77
+                        ],
+                        "test_sat_rnn": [
+                            0.9899999499320984,
+                            0.9899999499320984,
+                            1.0,
+                            0.7599999904632568,
+                            0.6399999856948853
+                        ],
+                        "test_DL_rnn_ta": [
+                            10.96,
+                            23.72,
+                            20.77,
+                            30.61,
+                            13.45
+                        ],
+                        "test_sat_rnn_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk": [
+                            5.43,
+                            11.36,
+                            5.52,
+                            18.52,
+                            5.44
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.9899999499320984,
+                            0.9799999594688416,
+                            1.0,
+                            0.7599999904632568,
+                            0.6399999856948853
+                        ],
+                        "test_DL_rnn_greedy": [
+                            2.97,
+                            19.79,
+                            2.84,
+                            24.45,
+                            3.71
+                        ],
+                        "test_sat_rnn_greedy": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            0.0,
+                            0.6499999761581421
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            10.39,
+                            24.87,
+                            10.6,
+                            30.56,
+                            10.89
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            3.14,
+                            25.51,
+                            2.79,
+                            24.52,
+                            3.03
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            1.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.6499999761581421
+                        ]
+                    }
+                }
+            }
+        },
+        "4": {
+            "250": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "test_DL_rnn": [],
+                        "test_sat_rnn": [],
+                        "test_DL_rnn_ta": [],
+                        "test_sat_rnn_ta": [],
+                        "test_DL_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "test_DL_rnn_greedy": [],
+                        "test_sat_rnn_greedy": [],
+                        "test_DL_rnn_greedy_ta": [],
+                        "test_sat_rnn_greedy_ta": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "1000": {
+                "results": {
+                    "5": {
+                        "test_DL_rnn": [
+                            15.95,
+                            10.43,
+                            23.8,
+                            10.16,
+                            9.06
+                        ],
+                        "test_sat_rnn": [
+                            1.0,
+                            0.6599999666213989,
+                            0.4599999785423279,
+                            0.7400000095367432,
+                            0.7899999618530273
+                        ],
+                        "test_DL_rnn_ta": [
+                            26.47,
+                            13.86,
+                            31.79,
+                            14.75,
+                            13.6
+                        ],
+                        "test_sat_rnn_ta": [
+                            1.0,
+                            1.0,
+                            0.9699999690055847,
+                            1.0,
+                            0.9899999499320984
+                        ],
+                        "test_DL_rnn_bk": [
+                            13.63,
+                            10.49,
+                            12.13,
+                            13.73,
+                            14.5
+                        ],
+                        "test_sat_rnn_bk": [
+                            1.0,
+                            0.75,
+                            0.5,
+                            0.9099999666213989,
+                            0.9099999666213989
+                        ],
+                        "test_DL_rnn_greedy": [
+                            26.5,
+                            8.52,
+                            28.01,
+                            8.69,
+                            8.13
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.0,
+                            0.6699999570846558,
+                            0.0,
+                            0.8299999833106995,
+                            0.8700000047683716
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            27.79,
+                            11.22,
+                            29.34,
+                            11.36,
+                            10.87
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            28.91,
+                            7.94,
+                            9.6,
+                            9.18,
+                            8.3
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            0.0,
+                            0.9099999666213989,
+                            0.7699999809265137,
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "10": {
+                        "test_DL_rnn": [
+                            22.22,
+                            8.5,
+                            22.44,
+                            7.61,
+                            7.12
+                        ],
+                        "test_sat_rnn": [
+                            0.9899999499320984,
+                            0.7199999690055847,
+                            0.5199999809265137,
+                            0.7199999690055847,
+                            0.7799999713897705
+                        ],
+                        "test_DL_rnn_ta": [
+                            24.67,
+                            12.28,
+                            30.8,
+                            15.31,
+                            12.18
+                        ],
+                        "test_sat_rnn_ta": [
+                            1.0,
+                            1.0,
+                            0.9899999499320984,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk": [
+                            22.24,
+                            9.89,
+                            18.07,
+                            13.82,
+                            12.29
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.9899999499320984,
+                            0.9399999976158142,
+                            0.7699999809265137,
+                            0.9399999976158142,
+                            0.9300000071525574
+                        ],
+                        "test_DL_rnn_greedy": [
+                            24.95,
+                            6.24,
+                            25.86,
+                            6.21,
+                            5.81
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.0,
+                            0.6800000071525574,
+                            0.0,
+                            0.7099999785423279,
+                            0.7999999523162842
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            27.84,
+                            11.46,
+                            28.83,
+                            11.38,
+                            11.07
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            1.0,
+                            1.0,
+                            0.9899999499320984,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            26.06,
+                            5.76,
+                            25.36,
+                            24.62,
+                            10.74
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.07999999821186066,
+                            1.0
+                        ]
+                    },
+                    "15": {
+                        "test_DL_rnn": [
+                            17.39,
+                            4.22,
+                            13.64,
+                            8.06,
+                            4.64
+                        ],
+                        "test_sat_rnn": [
+                            1.0,
+                            0.699999988079071,
+                            0.5199999809265137,
+                            0.8100000023841858,
+                            0.7899999618530273
+                        ],
+                        "test_DL_rnn_ta": [
+                            29.29,
+                            11.94,
+                            28.24,
+                            13.14,
+                            11.71
+                        ],
+                        "test_sat_rnn_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk": [
+                            5.51,
+                            9.8,
+                            11.81,
+                            8.55,
+                            10.64
+                        ],
+                        "test_sat_rnn_bk": [
+                            1.0,
+                            0.9099999666213989,
+                            0.7599999904632568,
+                            0.9799999594688416,
+                            0.8999999761581421
+                        ],
+                        "test_DL_rnn_greedy": [
+                            23.57,
+                            3.77,
+                            23.6,
+                            4.73,
+                            2.86
+                        ],
+                        "test_sat_rnn_greedy": [
+                            0.0,
+                            0.6299999952316284,
+                            0.0,
+                            0.7799999713897705,
+                            0.7999999523162842
+                        ],
+                        "test_DL_rnn_greedy_ta": [
+                            27.74,
+                            11.18,
+                            28.04,
+                            11.43,
+                            10.96
+                        ],
+                        "test_sat_rnn_greedy_ta": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            3.26,
+                            3.04,
+                            3.5,
+                            4.86,
+                            6.42
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

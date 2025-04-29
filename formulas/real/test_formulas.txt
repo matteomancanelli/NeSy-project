@@ -1,0 +1,1 @@
+(!((F(c0_complete)) -> (F(c2_complete)))) | (!((! c1_complete U c2_complete) | G(! c1_complete) & G (c1_complete -> X ((! c1_complete U c2_complete) | G (! c1_complete))))) | (!(F c2_complete -> F c1_complete)) | (!((F(c2_complete)) -> (F(c0_complete)))) | (((F c0_complete | F c0_complete) & ! (F c0_complete & F c0_complete)))

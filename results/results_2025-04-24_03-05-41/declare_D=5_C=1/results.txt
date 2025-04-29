@@ -1,0 +1,51 @@
+____________i_form=0___current_sample_size=250___sat_rate=0.784000039100647___exp=0____________
+- Prefix length: 5
+train acc next activity:
+RNN+BK:0.32165009528398514	RNN+BK Greedy:0.32165009528398514
+test acc next activity:
+RNN+BK:0.29600000381469727	RNN+BK Greedy:0.29600000381469727
+
+train DL distance:
+RNN+BK:23.47111111111111	RNN+BK Greedy:31.995555555555555
+test DL distance:
+RNN+BK:11	RNN+BK Greedy:32.44
+
+train sat suffix:
+RNN+BK:0.9511111378669739	RNN+BK Greedy:0.0
+test sat suffix:
+RNN+BK:1.0	RNN+BK Greedy:0.0
+
+- Prefix length: 10
+train acc next activity:
+RNN+BK:0.32165009528398514	RNN+BK Greedy:0.32165009528398514
+test acc next activity:
+RNN+BK:0.29600000381469727	RNN+BK Greedy:0.29600000381469727
+
+train DL distance:
+RNN+BK:11.537777777777778	RNN+BK Greedy:16.675555555555555
+test DL distance:
+RNN+BK:10.92	RNN+BK Greedy:16.92
+
+train sat suffix:
+RNN+BK:0.9466667175292969	RNN+BK Greedy:1.0
+test sat suffix:
+RNN+BK:1.0	RNN+BK Greedy:1.0
+
+- Prefix length: 15
+train acc next activity:
+RNN+BK:0.32165009528398514	RNN+BK Greedy:0.32165009528398514
+test acc next activity:
+RNN+BK:0.29600000381469727	RNN+BK Greedy:0.29600000381469727
+
+train DL distance:
+RNN+BK:6.982222222222222	RNN+BK Greedy:6.342222222222222
+test DL distance:
+RNN+BK:5.32	RNN+BK Greedy:6.6
+
+train sat suffix:
+RNN+BK:0.893333375453949	RNN+BK Greedy:1.0
+test sat suffix:
+RNN+BK:1.0	RNN+BK Greedy:1.0
+
+Execution time: 64.24899244308472
+

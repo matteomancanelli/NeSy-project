@@ -1,8 +1,8 @@
-import pathlib
 import json
+import pathlib
 
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 def load_all_results():
@@ -10,6 +10,9 @@ def load_all_results():
 
     # Iterate all configs
     for config in CONFIGS:
+        # Iterate the subfolder_results_date and check if it contains a folder
+        # with the name results_config_folder_name for the current config
+        results_config_folder_name = f"declare_D={config[1]}_C={config[4]}"
         # Try to find the results.json file corresponding to the current config
         # by iterating through the subfolders in the RESULTS_FOLDER
         results = None
@@ -17,15 +20,11 @@ def load_all_results():
             # Ignore file exceptions.txt
             if subfolder_results_date.is_file():
                 continue
-            # Iterate the subfolder_results_date and check if it contains a folder
-            # with the name results_config_folder_name for the current config
-            results_config_folder_name = f"declare_D={config[1]}_C={config[4]}"
-            results_folder_path = pathlib.Path(subfolder_results_date, results_config_folder_name)
-            if results_folder_path in subfolder_results_date.iterdir():
-                results_file_path = pathlib.Path(results_folder_path, "results.json")
+            if results_config_folder_name == subfolder_results_date.name:
+                results_file_path = pathlib.Path(subfolder_results_date, "results.json")
                 # NOTE hardcoding this so not to get results from this specific folder
-                if "results/results_2024-06-04_17-44-39/" in str(results_file_path) and "declare_D=5_C=1" not in str(results_file_path):
-                    continue
+                # if "results/results_2024-06-04_17-44-39/" in str(results_file_path) and "declare_D=5_C=1" not in str(results_file_path):
+                #     continue
                 try:
                     with open(results_file_path, "r") as f:
                         results = json.load(f)
@@ -191,9 +190,9 @@ CONFIGS = ["(5, 1)", "(4, 2)", "(3, 3)", "(2, 4)", "(1, 5)"]
 SAMPLE_SIZES = [1000]
 PREFIX_LENGTHS = [5, 10, 15]
 
-RESULTS_FOLDER = pathlib.Path("results")
+RESULTS_FOLDER = pathlib.Path("results/results_2025-01-22_23-53-46_full_synthetic")
 
-PLOTS_FOLDER = pathlib.Path("plots")
+PLOTS_FOLDER = pathlib.Path("plots", RESULTS_FOLDER)
 ACC_PLOTS_FOLDER = PLOTS_FOLDER / "acc_plots"
 SAT_PLOTS_FOLDER = PLOTS_FOLDER / "sat_plots"
 DL_PLOTS_FOLDER = PLOTS_FOLDER / "DL_plots"
@@ -259,14 +258,20 @@ if __name__ == "__main__":
                     except KeyError:
                         print(f"Skipping formula {i_form} for sample size {sample_size} as not enough results yet")
                         continue
-            
+
             # If metric is accuracy or satisfiability, convert to percentage
             if metric in ["acc", "sat"]:
                 for prefix_length in metric_values_for_sample_size_rnn_by_prefix_length:
                     metric_values_for_sample_size_rnn_by_prefix_length[prefix_length] = [value * 100 for value in metric_values_for_sample_size_rnn_by_prefix_length[prefix_length]]
-                    metric_values_for_sample_size_rnn_bk_by_prefix_length[prefix_length] = [value * 100 for value in metric_values_for_sample_size_rnn_bk_by_prefix_length[prefix_length]]
-                    metric_values_for_sample_size_rnn_greedy_by_prefix_length[prefix_length] = [value * 100 for value in metric_values_for_sample_size_rnn_greedy_by_prefix_length[prefix_length]]
-                    metric_values_for_sample_size_rnn_bk_greedy_by_prefix_length[prefix_length] = [value * 100 for value in metric_values_for_sample_size_rnn_bk_greedy_by_prefix_length[prefix_length]]
+                    metric_values_for_sample_size_rnn_bk_by_prefix_length[prefix_length] = [
+                        value * 100 for value in metric_values_for_sample_size_rnn_bk_by_prefix_length[prefix_length]
+                    ]
+                    metric_values_for_sample_size_rnn_greedy_by_prefix_length[prefix_length] = [
+                        value * 100 for value in metric_values_for_sample_size_rnn_greedy_by_prefix_length[prefix_length]
+                    ]
+                    metric_values_for_sample_size_rnn_bk_greedy_by_prefix_length[prefix_length] = [
+                        value * 100 for value in metric_values_for_sample_size_rnn_bk_greedy_by_prefix_length[prefix_length]
+                    ]
 
             # Initialise plot
             fig, ax = plt.subplots()

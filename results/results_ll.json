@@ -1,0 +1,704 @@
+{
+    "(5, 1)": {
+        "0": {
+            "250": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            }
+        },
+        "1": {
+            "250": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            }
+        },
+        "2": {
+            "250": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            }
+        },
+        "3": {
+            "250": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            }
+        },
+        "4": {
+            "250": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "500": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            },
+            "750": {
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [],
+                        "test_acc_rnn_bk": [],
+                        "train_DL_rnn_bk": [],
+                        "test_DL_rnn_bk": [],
+                        "train_sat_rnn_bk": [],
+                        "test_sat_rnn_bk": [],
+                        "train_acc_rnn_bk_greedy": [],
+                        "test_acc_rnn_bk_greedy": [],
+                        "train_DL_rnn_bk_greedy": [],
+                        "test_DL_rnn_bk_greedy": [],
+                        "train_sat_rnn_bk_greedy": [],
+                        "test_sat_rnn_bk_greedy": []
+                    }
+                }
+            }
+        }
+    }
+}

@@ -15,8 +15,9 @@ from RNN import LSTM_model
 from training import train
 from evaluation import suffix_prediction_with_temperature_with_stop, evaluate_compliance_with_formula, evaluate_DL_distance, greedy_suffix_prediction_with_stop
 from FiniteStateMachine import DFA
-from utils import expand_dataset_with_end_of_trace_symbol
 from sample_interesting_formulas import random_strings_dataset
+
+from utils import *
 
 if torch.cuda.is_available():
     device = "cuda:0"
@@ -307,6 +308,7 @@ def main():
                         
                         # Training
                         train_acc, test_acc = train(model, train_dataset, test_dataset, MAX_NUM_EPOCHS, EPSILON, deepdfa=deep_dfa, prefix_len=current_prefix_len)
+                        #train_acc, test_acc = train(model, train_dataset, test_dataset, MAX_NUM_EPOCHS, EPSILON, deepdfa=deep_dfa, prefix_len=current_prefix_len, logic_loss_type = "multiple_samples")
                         
                         # Save the model
                         model_file = pathlib.Path(results_config_folder, f"model_rnn_bk_formula_{i_form}_sample_size_{current_sample_size}_exp_{exp}_prefix_len_{current_prefix_len}.pt")

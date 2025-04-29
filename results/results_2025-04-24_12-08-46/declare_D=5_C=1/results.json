@@ -1,0 +1,138 @@
+{
+    "(5, 1)": {
+        "0": {
+            "1000": {
+                "sat_rate": 0.5230000019073486,
+                "results": {
+                    "5": {
+                        "train_acc_rnn_bk": [
+                            0.24786458313465118
+                        ],
+                        "test_acc_rnn_bk": [
+                            0.2515000104904175
+                        ],
+                        "train_DL_rnn_bk": [
+                            11.113333333333333
+                        ],
+                        "test_DL_rnn_bk": [
+                            11.31
+                        ],
+                        "train_sat_rnn_bk": [
+                            0.5733333230018616
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.550000011920929
+                        ],
+                        "train_acc_rnn_bk_greedy": [
+                            0.24786458313465118
+                        ],
+                        "test_acc_rnn_bk_greedy": [
+                            0.2515000104904175
+                        ],
+                        "train_DL_rnn_bk_greedy": [
+                            11.05
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            10.65
+                        ],
+                        "train_sat_rnn_bk_greedy": [
+                            0.5800000429153442
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            0.550000011920929
+                        ]
+                    },
+                    "10": {
+                        "train_acc_rnn_bk": [
+                            0.06770833333333333
+                        ],
+                        "test_acc_rnn_bk": [
+                            0.06650000065565109
+                        ],
+                        "train_DL_rnn_bk": [
+                            9.741111111111111
+                        ],
+                        "test_DL_rnn_bk": [
+                            9.67
+                        ],
+                        "train_sat_rnn_bk": [
+                            0.5211111307144165
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.5099999904632568
+                        ],
+                        "train_acc_rnn_bk_greedy": [
+                            0.06770833333333333
+                        ],
+                        "test_acc_rnn_bk_greedy": [
+                            0.06650000065565109
+                        ],
+                        "train_DL_rnn_bk_greedy": [
+                            10
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            10
+                        ],
+                        "train_sat_rnn_bk_greedy": [
+                            0.5222222208976746
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            0.5099999904632568
+                        ]
+                    },
+                    "15": {
+                        "train_acc_rnn_bk": [
+                            0.31088541746139525
+                        ],
+                        "test_acc_rnn_bk": [
+                            0.3490000069141388
+                        ],
+                        "train_DL_rnn_bk": [
+                            19.447777777777777
+                        ],
+                        "test_DL_rnn_bk": [
+                            7.78
+                        ],
+                        "train_sat_rnn_bk": [
+                            0.5099999904632568
+                        ],
+                        "test_sat_rnn_bk": [
+                            0.4899999797344208
+                        ],
+                        "train_acc_rnn_bk_greedy": [
+                            0.31088541746139525
+                        ],
+                        "test_acc_rnn_bk_greedy": [
+                            0.3490000069141388
+                        ],
+                        "train_DL_rnn_bk_greedy": [
+                            25.32777777777778
+                        ],
+                        "test_DL_rnn_bk_greedy": [
+                            24.67
+                        ],
+                        "train_sat_rnn_bk_greedy": [
+                            0.0
+                        ],
+                        "test_sat_rnn_bk_greedy": [
+                            0.0
+                        ]
+                    }
+                }
+            },
+            "formula": "((G (c0 i ! (F c0)))) | (!(G( c0 i F c0))) | (!(F c2 i F c0)) | ((G( c0 i X (! c0 U c0)) & (! c0 U c0) | G (! c0))) | (!((! c1 U c2) | G(! c1) & G (c1 i X ((! c1 U c2) | G (! c1)))))"
+        },
+        "1": {
+            "1000": {
+                "sat_rate": 0.6950000524520874
+            },
+            "formula": "(!(G( c0 i F c0))) | ((G( c0 i F c2) & (! c2 U c0) | G (! c2))) | ((G( c1 i X (! c1 U c1)))) | ((!(F(c0 & X ( F(c0)))))) | (!((! c1 U c0) | G(! c1) & G (c1 i X ((! c1 U c0) | G (! c1)))))"
+        },
+        "2": {
+            "1000": {
+                "sat_rate": 0.8390000462532043
+            },
+            "formula": "(((F c0 | F c0) & ! (F c0 & F c0))) | ((G( c0 i F c1))) | (!(F c2 i F c1)) | (!(G( c0 i F c2))) | (((F c2 | F c2) & ! (F c2 & F c2)))"
+        }
+    }
+}

@@ -76,12 +76,6 @@ def string_to_one_hot(string, characters):
         one_hot[i, char_to_idx[char]] = 1
     return one_hot
 
-def list_to_one_hot(lst, symbols):
-    sym_to_idx = {symbol: idx for idx, symbol in enumerate(symbols)}
-    one_hot = torch.zeros(len(lst), len(symbols))
-    for i, symbol in enumerate(lst):
-        one_hot[i, sym_to_idx[symbol]] = 1
-    return one_hot
 
 # Example usage:
 # num_strings = 200

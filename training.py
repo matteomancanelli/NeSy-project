@@ -1,13 +1,14 @@
 import torch
 import torchmetrics
-from evaluation import evaluate_accuracy_next_activity, logic_loss
+from evaluation import evaluate_accuracy_next_activity, logic_loss, logic_loss_multiple_samples
+import sys
 if torch.cuda.is_available():
      device = 'cuda:0'
 else:
     device = 'cpu'
 from statistics import mean
 
-def train(rnn, train_dataset, test_dataset, max_num_epochs, epsilon, deepdfa = None, prefix_len = 0, batch_size= 64):
+def train(rnn, train_dataset, test_dataset, max_num_epochs, epsilon, deepdfa = None, prefix_len = 0, batch_size= 64, logic_loss_type = "one_sample"):
 
     curr_temp = 0.5
     lambda_temp = 0.9999999999
@@ -45,10 +46,17 @@ def train(rnn, train_dataset, test_dataset, max_num_epochs, epsilon, deepdfa = N
             sup_loss_batches.append(sup_loss.item())
 
             ##################################### logic loss
-            if epoch > 500 and deepdfa != None:
-                log_loss = logic_loss(rnn, deepdfa, X, prefix_len, curr_temp)
+            #loss multiple_samples la mettiamo fin dall'inizio
+            if logic_loss_type == "multiple_samples":
+                log_loss = logic_loss_multiple_samples(rnn, deepdfa, X, prefix_len, curr_temp, num_samples=10)
                 log_loss_batches.append(log_loss.item())
                 loss = 0.6*sup_loss + 0.4*log_loss
+            elif epoch > 500 and deepdfa != None:
+                if logic_loss_type == "one_sample":
+                    log_loss = logic_loss(rnn, deepdfa, X, prefix_len, curr_temp)
+                    log_loss_batches.append(log_loss.item())
+                    loss = 0.6 * sup_loss + 0.4 * log_loss
+
             else:
                 loss = sup_loss
 
@@ -64,7 +72,7 @@ def train(rnn, train_dataset, test_dataset, max_num_epochs, epsilon, deepdfa = N
             print("MINIMUM TEMPERATURE REACHED")
         test_acc = evaluate_accuracy_next_activity(rnn, test_dataset, acc_func)
         if epoch % 100 == 0:
-            if deepdfa == None or epoch <= 500:
+            if deepdfa == None or (logic_loss_type == "one_sample" and epoch <= 500):
                 print("Epoch {}:\tloss:{}\ttrain accuracy:{}\ttest accuracy:{}".format(epoch, sup_loss, train_acc, test_acc))
                 loss= sup_loss
             else:
